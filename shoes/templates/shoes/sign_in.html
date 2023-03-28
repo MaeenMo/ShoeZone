@@ -1,0 +1,52 @@
+{% extends 'shoes/base.html' %}
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../../../media/shoes/Media/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'shoes/sign_in.css' %}">
+{% endblock head %}
+
+{% block content %}
+
+    <div class="container">
+        <form id="form" method="POST">
+            {% csrf_token %}
+            <h1>Sign in</h1>
+            <h3 style="text-align: center">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}"></div>
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </h3>
+            {% if form.errors %}
+                <h3 style="text-align: center">You Entered Wrong Username or Password :(</h3>
+            {% endif %}
+            <div class="input-control">
+                <label class ="label" for="email">Username</label>
+                {{ form.username }}
+{#                <input id="email" name="email" type="text">#}
+            </div>
+            <div class="input-control">
+                <label class="label" for="password">Password</label>
+                {{ form.password }}
+{#				<input id="password"name="password" type="password"/>#}
+			</div>
+                <div class="input-control" style="margin-top: 20px; display: block; text-align: center; ">
+                    <a href="{% url 'register' %}">Don't Have an Account?</a>
+                </div>
+                <br>
+           	 	<div class="input-control" style="text-align: center">
+                    <form action="#"><div><button id="button1" type="submit">Sign in</button></div></form>
+                </div>
+{#				<form action="{% url 'registration' %}"><div><button id="button2" type="submit">Sign Up</button></div></form>#}
+        </form>
+    </div>
+
+{% endblock content %}

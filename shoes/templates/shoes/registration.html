@@ -1,0 +1,53 @@
+{% extends 'shoes/base.html' %}
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'shoes/registration.css' %}">
+    <script defer src="{% static 'shoes/registration.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+
+    <div class="container">
+        <form id="form" method="POST">
+            {% csrf_token %}
+            <h1>Sign Up</h1>
+            <h3 style="text-align: center">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}"></div>
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </h3>
+            <div class="input-control">
+                <label class ="label" for="username">Username</label>
+                {{ form.username }}
+                <div class="error"></div>
+            </div>
+            <div class="input-control">
+                <label class ="label" for="email">Email</label>
+                {{ form.email }}
+                <div class="error"></div>
+            </div>
+            <div class="input-control">
+                <label class="label" for="password">Password</label>
+                {{ form.password1 }}
+                <div class="error"></div>
+            </div>
+            <div class="input-control">
+                <label class="label" for="password2">Confirm Password</label>
+                {{ form.password2 }}
+                <div class="error"></div>
+            </div>
+            <button type="submit" class="submit"> Sign Up</button>
+        </form>
+    </div>
+
+{% endblock content %}

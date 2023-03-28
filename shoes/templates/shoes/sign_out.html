@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shoezone - Sign Out</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'shoes/sign_in.css' %}">
+    <link rel="icon" type="image/x-icon" href="../../../media/shoes/Media/favicon.png">
+</head>
+<body>
+<div class="container">
+    <form id="form_logout" method="POST">
+        {% csrf_token %}
+        <div class="anker">
+        <h1>You Have Been Logged Out</h1>
+        </div>
+        <div style="font-size: medium">
+            <br>
+            <div class="anker">
+            <a  style="border-radius: 5px ;background: #009F6B; text-decoration: none;color: white; padding: 5px 5px" href="{% url 'shoes-home' %}">Go To Home</a>
+            <a style="border-radius: 5px ;background: #009F6B;text-align: right; text-decoration: none; color: white; padding: 5px 5px" href="{% url 'login' %}">Login Again</a>
+            </div>
+        </div>
+        <br>
+    </form>
+</div>
+</body>
+</html>
