@@ -3,7 +3,6 @@ import uuid
 from django.utils import timezone
 from django.contrib.auth.models import User, AbstractUser
 
-
 class Shoe(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=20, default="Nike")
@@ -12,7 +11,8 @@ class Shoe(models.Model):
     color = models.CharField(max_length=50, default="White")
     color_hexa = models.CharField(max_length=50, default="#000000")
     Type = models.CharField(max_length=10, default="Men")
-    img = models.ImageField(upload_to='shoes_images')
+    img = models.ImageField(upload_to='ShoeZone/static/Media')
+    shoe_num = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

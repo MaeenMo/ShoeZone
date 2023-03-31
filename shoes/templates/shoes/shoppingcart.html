@@ -2,7 +2,7 @@
 {% load static %}
 {% block head %}
     <meta charset="utf-8">
-    <link rel="stylesheet" href="{% static 'shoes/shoppingcart.css' %}"/>
+    <link rel="stylesheet" href="/ShoeZone/static/CSS/shoppingcart.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
 
@@ -16,6 +16,7 @@
 {% endblock head %}
 
 {% block content %}
+<body class="gradient-custom">
     <section class="h-100">
         <div class="container py-5">
             <div class="row d-flex justify-content-center my-4">
@@ -24,18 +25,18 @@
                         <div class="card-header py-3">
                             {% if no_items == 1 %}
                                 <h5 class="mb-0">Cart - {{ no_items }} item</h5>
-                                {% if messages %}
-                                    {% for message in messages %}
-                                    {{ message }}
-                                    {% endfor %}
-                                {% endif %}
+{#                                {% if messages %}#}
+{#                                    {% for message in messages %}#}
+{#                                        {{ message }}#}
+{#                                    {% endfor %}#}
+{#                                {% endif %}#}
                             {% else %}
                                 <h5 class="mb-0">Cart - {{ no_items }} items</h5>
-                                {% if messages %}
-                                    {% for message in messages %}
-                                    {{ message }}
-                                    {% endfor %}
-                                {% endif %}
+{#                                {% if messages %}#}
+{#                                    {% for message in messages %}#}
+{#                                        {{ message }}#}
+{#                                    {% endfor %}#}
+{#                                {% endif %}#}
                             {% endif %}
                         </div>
                         <div class="card-body">
@@ -45,7 +46,7 @@
                                     <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                                         <!-- Image -->
                                         <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                            <img src="../../../{{ i.product.img }}" class="w-100" alt="" />
+                                            <img src="/{{ i.product.img }}" class="w-100" alt="" />
                                             <a href="#!"> <!--image button-->
                                                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                                             </a>
@@ -134,12 +135,12 @@
                                 </li>
                             </ul>
                             {% if cart_items %}
-                                <a href="{% url 'checkout' %}" name="checkout">
-                                    <button type="button" class="btn btn-primary btn-lg btn-block"  style="background:darkorange">
+                                <a href="{% url 'checkout' %}">
+                                    <button type="button" name="checkout" class="btn btn-primary btn-lg btn-block"  style="background:darkorange">
                                         Go to checkout
                                     </button>
                                 </a>
-                           {% else %} 
+                           {% else %}
                                 <a href="" name="checkout" onclick="myfunc()">
                                     <button type="button" class="btn btn-primary btn-lg btn-block"  style="background:darkorange">
                                         Go to checkout
@@ -157,4 +158,5 @@
             </div>
         </div>
     </section>
+</body>
 {% endblock content %}

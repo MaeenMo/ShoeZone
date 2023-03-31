@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'shoes/registration.css' %}">
-    <script defer src="{% static 'shoes/registration.js' %}"></script>
+    <link rel="stylesheet" href="/ShoeZone/static/CSS/registration.css">
+    <script defer src="/ShoeZone/static/CSS/registration.js"></script>
 {% endblock head %}
 
 {% block content %}
@@ -39,8 +39,16 @@
             <div class="input-control">
                 <label class="label" for="password">Password</label>
                 {{ form.password1 }}
-                <div class="error"></div>
+
             </div>
+            <div class="input-control">
+                <ul>
+                    <li>Your password can’t be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can’t be a commonly used password.</li>
+                    <li>Your password can’t be entirely numeric.</li>
+                </ul>
+             </div>
             <div class="input-control">
                 <label class="label" for="password2">Confirm Password</label>
                 {{ form.password2 }}

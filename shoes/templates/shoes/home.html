@@ -2,8 +2,8 @@
 {% load static %}
 {% block head %}
     <meta charset="utf-8">
-    <link rel="stylesheet" href="{% static 'shoes/home.css' %}"/>
-    <link rel="icon" type="image/x-icon" href="../../../media/shoes/Media/favicon.png">
+    <link rel="stylesheet" href="/ShoeZone/static/CSS/home.css"/>
+    <link rel="icon" type="image/x-icon" href="/ShoeZone/static/Media/favicon.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
@@ -34,22 +34,22 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img draggable="false" src="../../../media/shoes/Media/1.jpg" class="d-block w-100 slider_img" alt="...">
+                <img draggable="false" src="/ShoeZone/static/Media/home1.jpg" class="d-block w-100 slider_img" alt="...">
             </div>
             <div class="carousel-item">
-                <img draggable="false" src="../../../media/shoes/Media/2.jpg" class="d-block w-100 slider_img" alt="...">
+                <img draggable="false" src="/ShoeZone/static/Media/home2.jpg" class="d-block w-100 slider_img" alt="...">
             </div>
             <div  class="carousel-item">
-                <img draggable="false" src="../../../media/shoes/Media/3.jpg" class="d-block w-100 slider_img" alt="...">
+                <img draggable="false" src="/ShoeZone/static/Media/home3.jpg" class="d-block w-100 slider_img" alt="...">
             </div>
             <div class="carousel-item">
-                <img draggable="false" src="../../../media/shoes/Media/4.jpg" class="d-block w-100 slider_img" alt="...">
+                <img draggable="false" src="/ShoeZone/static/Media/home4.jpg" class="d-block w-100 slider_img" alt="...">
             </div>
             <div class="carousel-item">
-                <img draggable="false" src="../../../media/shoes/Media/5.jpg" class="d-block w-100 slider_img" alt="...">
+                <img draggable="false" src="/ShoeZone/static/Media/home5.jpg" class="d-block w-100 slider_img" alt="...">
             </div>
             <div class="carousel-item">
-                <img draggable="false" src="../../../media/shoes/Media/6.jpg" class="d-block w-100 slider_img" alt="..." >
+                <img draggable="false" src="/ShoeZone/static/Media/home6.jpg" class="d-block w-100 slider_img" alt="..." >
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="width:6vw">
@@ -70,7 +70,7 @@
                     <div class="row">
                         <div class="el-wrapper">
                             <div class="box-up">
-                                <img class="img" src="../../../{{ i.img }}" alt="">
+                                <img class="img" src="{{ i.img }}" alt="">
                                 <div class="img-info">
                                     <div class="info-inner">
                                         <span class="p-name">{{ i.name }}</span>
@@ -95,9 +95,9 @@
                         </div>
                     </div>
                 </div>
-           
+
             {% endfor %}
-        </div> 
+        </div>
     </div>
 {% endblock content %}
 

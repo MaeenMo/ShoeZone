@@ -3,9 +3,10 @@
 {% block head %}
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Oswald:400,600" rel="stylesheet">
-	<link href="{% static 'shoes/itempage.css' %}" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="{% static 'shoes/home.css' %}"/>
-	<link rel="icon" type="image/x-icon" href="../../../media/shoes/Media/favicon.png">
+	<link href="/ShoeZone/static/Media/CSS/itempage.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="/ShoeZone/static/CSS/home.css"/>
+    <link rel="stylesheet" href="/ShoeZone/static/CSS/itempage.css"/>
+	<link rel="icon" type="image/x-icon" href="/ShoeZone/static/Media/favicon.png">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
@@ -21,7 +22,7 @@
         {% for i in shoes %}
             <div class="container" style="margin-top:60px">
               <div class="product-image ">
-                  <img src="../../../{{ i.img }}" alt="" class="product-pic">
+                  <img src="/{{ i.img }}" alt="" class="product-pic">
                   <div class="dots">
                 </div>
               </div>
@@ -50,9 +51,9 @@
                       <h5>color</h5>
                       <ul>
                               {% if i.color_hexa != "#000000" %}
-                                  <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 0 3px white, 0 0 0 5px black"></li>
+                                  <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 7px white, 0 0 10px 5px black;"></li>
                               {% else %}
-                                  <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 0 3px white, 0 0 0 5px black"></li>
+                                  <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 7px white, 0 0 10px 5px black;"></li>
                               {% endif %}
                       </ul>
                       <div class="footer1" style="margin-top: 50px" >
