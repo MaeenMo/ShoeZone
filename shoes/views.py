@@ -143,12 +143,12 @@ def checkout(request):
             # i.delete()
         temp = ""
         for i in User_Order.objects.filter(owner=request.user, ordered=True):
-            temp += "{x}, Quantity: {y}, Product_Price: {z}\n".format(x=i.product.name, y=i.product_qty, z=i.product.price)
+            temp += "Shoe Name: {x}\nShoe Brand: {q}\nSelected Sizes: {z}\nQuantity: {y}\n\n".format(x=i.product.name, q=i.product.brand, z=i.selected_size, y=i.product_qty)
             i.delete()
         Order.objects.create(order_no="#{z}".format(z=x), items=temp)
         other = Order.objects.get(order_no="#{h}".format(h=x))
         other.user_ordered = str(request.user.username)
-        other.total_price = "EGP " + str(total_price+40)
+        other.total_price = "EGP " + str(total_price)
         other.save()
         context = {
             'page_name': "Checkout",
@@ -164,15 +164,23 @@ def checkout(request):
 def add_To_Cart(request, xid):
     if not get_referer(request):
         raise Http404
-    if User_Order.objects.filter(product_id=xid, ordered=False, owner=request.user):
-        check = User_Order.objects.get(product_id=xid, owner=request.user)
-        check.product_qty += 1
-        check.save()
-        messages.success(request, "Item Already in Cart")
+    if request.POST.get("sizeselect"):
+        if User_Order.objects.filter(product_id=xid, ordered=False, owner=request.user):
+            check = User_Order.objects.get(product_id=xid, owner=request.user)
+            check.selected_size += ", {y}".format(y=request.POST.get("sizeselect"))
+            check.product_qty += 1
+            check.save()
+            messages.success(request, "Item Already in Cart")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        User_Order.objects.create(owner=request.user, product_id=xid, product_qty=1)
+        messages.success(request, "Item Added To Cart")
+        hh = User_Order.objects.get(owner=request.user, product_id=xid)
+        hh.selected_size = request.POST.get("sizeselect")
+        hh.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    messages.success(request, "Item Added To Cart")
-    User_Order.objects.create(owner=request.user, product_id=xid, product_qty=1)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        messages.success(request, "Please Select a Size")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def remove_From_Cart(request, xid):
     if not get_referer(request):

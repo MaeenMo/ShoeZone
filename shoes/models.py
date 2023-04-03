@@ -22,6 +22,7 @@ class User_Order(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Shoe, on_delete=models.CASCADE)
     product_qty = models.IntegerField(null=False, blank=False)
+    selected_size = models.CharField(max_length=10, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField(default=False)
     order_num = models.CharField(max_length=20, default="#000000")
