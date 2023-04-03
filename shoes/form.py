@@ -7,6 +7,16 @@ class RegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.fields['first_name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Enter Your First Name'
+        })
+
+        self.fields['last_name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Enter Your Last Name'
+        })
+
         self.fields['username'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Enter Your Username'
@@ -25,6 +35,8 @@ class RegistrationForm(UserCreationForm):
             'class': 'form-control',
             'placeholder': 'Confirm Your Password'
         })
+    first_name = forms.CharField(max_length=20)
+    last_name = forms.CharField(max_length=20)
     username = forms.CharField(max_length=20)
     email = forms.EmailField(max_length=40)
     password1 = forms.CharField(widget=forms.PasswordInput)
@@ -32,4 +44,4 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']

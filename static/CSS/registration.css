@@ -1,5 +1,5 @@
 body {
-	background-image: url("/static/Media/shoe.jpg");
+	background-image: url("/ShoeZone/static/Media/shoe.jpg");
 	background-size:cover;
 	background-repeat: no-repeat;
 	margin:0;
@@ -15,7 +15,7 @@ body {
 #form {
 	width: 500px;
 	height:100%;
-	margin-top: 15vh;
+	margin: 12vh 0px;
 	padding: 20px;
 	background-color: whitesmoke;
 	border-radius: 4px;
@@ -73,7 +73,7 @@ body {
 }
 @media(max-width:1030px){
 	body{
-		background-image: url("/static/Media/1024.jpg") !important;
+		background-image: url("/ShoeZone/static/Media/1024.jpg") !important;
 		background-size:cover;
 		background-repeat: no-repeat;
 		margin:0;
@@ -88,7 +88,7 @@ body {
 }
 @media(max-width:712px) {
 	body {
-		background-image: url("/static/Media/712.jpg") !important;
+		background-image: url("/ShoeZone/static/Media/712.jpg") !important;
 		background-size: cover;
 		background-repeat: no-repeat;
 		margin: 0;
@@ -102,7 +102,7 @@ body {
 }
 @media(max-width:450px){
 	body{
-		background-image: url("/static/Media/412.jpg") !important;
+		background-image: url("/ShoeZone/static/Media/412.jpg") !important;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-color:#0071c5 !important;
@@ -124,7 +124,7 @@ body {
 }
 @media(max-width:380px) {
 	body {
-		background-image: url("/static/Media/375.jpg") !important;
+		background-image: url("/ShoeZone/static/Media/375.jpg") !important;
 		background-size: cover;
 		background-repeat: no-repeat;
 		margin: 0;

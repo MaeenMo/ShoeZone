@@ -28,6 +28,16 @@
                 {% endif %}
             </h3>
             <div class="input-control">
+                <label class="label" for="first_name">First Name</label>
+                {{ form.first_name }}
+                <div class="error"></div>
+            </div>
+            <div class="input-control">
+                <label class="label" for="last_name">Last Name</label>
+                {{ form.last_name }}
+                <div class="error"></div>
+            </div>
+            <div class="input-control">
                 <label class ="label" for="username">Username</label>
                 {{ form.username }}
                 <div class="error"></div>
@@ -40,7 +50,6 @@
             <div class="input-control">
                 <label class="label" for="password">Password</label>
                 {{ form.password1 }}
-
             </div>
             <div class="input-control">
                 <ul>
@@ -54,7 +63,7 @@
                 <label class="label" for="password2">Confirm Password</label>
                 {{ form.password2 }}
             </div>
-            <div class="input-control" style="margin: 20px 0px; display: block; text-align: center; ">
+             <div class="input-control" style="margin: 20px 0px; display: block; text-align: center; ">
                 <a href="{% url 'login' %}">Already Have an Account?</a>
             </div>
             <button type="submit" class="submit"> Sign Up</button>

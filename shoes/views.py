@@ -147,7 +147,7 @@ def checkout(request):
             i.delete()
         Order.objects.create(order_no="#{z}".format(z=x), items=temp)
         other = Order.objects.get(order_no="#{h}".format(h=x))
-        other.user_ordered = str(request.user.username)
+        other.user_ordered = "{x} {y}".format(x=str(request.user.first_name), y=str(request.user.last_name))
         other.total_price = "EGP " + str(total_price)
         other.save()
         context = {

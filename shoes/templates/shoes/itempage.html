@@ -60,6 +60,11 @@
                           </select>
                       </div>
                   </div>
+                  <script>
+                          function myfunction(){
+                              alert("Please Sign in :(");
+                          }
+                      </script>
                   <div class="color" >
                       <h5>color</h5>
                       <ul>
@@ -79,7 +84,7 @@
                                   </button>
 {#                              </a>#}
                           {% else %}
-                                  <button type="submit">
+                                  <button type="button" onclick="myfunction()">
                                       <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
                                       <span>add to cart</span>
                                   </button>
