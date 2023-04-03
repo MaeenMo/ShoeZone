@@ -16,6 +16,7 @@
 
     <div class="container">
         <form id="form" method="POST">
+            <a href="{% url 'shoes-home' %}"> ← Back To Home</a>
             {% csrf_token %}
             <h1>Sign Up</h1>
             <h3 style="text-align: center">
@@ -52,7 +53,9 @@
             <div class="input-control">
                 <label class="label" for="password2">Confirm Password</label>
                 {{ form.password2 }}
-                <div class="error"></div>
+            </div>
+            <div class="input-control" style="margin: 20px 0px; display: block; text-align: center; ">
+                <a href="{% url 'login' %}">Already Have an Account?</a>
             </div>
             <button type="submit" class="submit"> Sign Up</button>
         </form>

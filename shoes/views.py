@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import datetime
 from .models import *
 from .form import *
 from random import randint, randrange
@@ -106,7 +107,7 @@ def cart(request):
     total_price = 0
     context = {
         'shoes': Shoe.objects.all(),
-        'cart_items': User_Order.objects.filter(owner_id=request.user.id),
+        'cart_items': User_Order.objects.filter(owner_id=request.user.id, ordered=False),
         'page_name': 'Cart',
         'nav': False
     }
@@ -126,10 +127,29 @@ def cart(request):
 def checkout(request):
     if not get_referer(request):
         raise Http404
-    if User_Order.objects.all():
-        for i in User_Order.objects.all():
+    total_price = 0
+    if User_Order.objects.filter(ordered=False, owner=request.user):
+        x = randint(100000, 999999)
+        for i in User_Order.objects.filter(owner=request.user, ordered=False):
+            i.ordered = True
+            i.created_at = datetime.datetime.now()
+            i.order_num = "#{h}".format(h=x)
+            i.save()
+            temp_p = ''
+            for j in i.product.price:
+                if j.isnumeric():
+                    temp_p += j
+            total_price += int(temp_p) * i.product_qty
+            # i.delete()
+        temp = ""
+        for i in User_Order.objects.filter(owner=request.user, ordered=True):
+            temp += "{x}, Quantity: {y}, Product_Price: {z}\n".format(x=i.product.name, y=i.product_qty, z=i.product.price)
             i.delete()
-        x = randint(10000, 99999)
+        Order.objects.create(order_no="#{z}".format(z=x), items=temp)
+        other = Order.objects.get(order_no="#{h}".format(h=x))
+        other.user_ordered = str(request.user.username)
+        other.total_price = "EGP " + str(total_price+40)
+        other.save()
         context = {
             'page_name': "Checkout",
             'order_no': x
@@ -140,13 +160,12 @@ def checkout(request):
             'Error': "Stop Refreshing :("
         }
     return render(request, 'shoes/checkout.html', context)
-    # messages.success(request, "Please Fill Your Cart Then Checkout :(")
-    # return redirect('cart')
+
 def add_To_Cart(request, xid):
     if not get_referer(request):
         raise Http404
-    if User_Order.objects.filter(product_id=xid):
-        check = User_Order.objects.get(product_id=xid)
+    if User_Order.objects.filter(product_id=xid, ordered=False, owner=request.user):
+        check = User_Order.objects.get(product_id=xid, owner=request.user)
         check.product_qty += 1
         check.save()
         messages.success(request, "Item Already in Cart")
@@ -158,8 +177,8 @@ def add_To_Cart(request, xid):
 def remove_From_Cart(request, xid):
     if not get_referer(request):
         raise Http404
-    if User_Order.objects.filter(product_id=xid):
-        check = User_Order.objects.get(product_id=xid)
+    if User_Order.objects.filter(product_id=xid, owner=request.user):
+        check = User_Order.objects.get(product_id=xid, owner=request.user)
         check.delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     messages.success(request, "Item Not in Cart")
