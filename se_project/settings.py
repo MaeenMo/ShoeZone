@@ -134,5 +134,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'qubeteamofficial@gmail.com'
-EMAIL_HOST_PASSWORD = 'xqwolhfukvmiahfn'
+EMAIL_HOST_USER = 'qubedeveloperteam21p@gmail.com'
+EMAIL_HOST_PASSWORD = 'abrtvwnzuteopdfh'

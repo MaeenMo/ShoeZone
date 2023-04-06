@@ -49,8 +49,8 @@ body {
     box-shadow: 2px 2px 8px 0px rgb(0, 0, 0,0.7) ;
 }
 #form button:active{
-    background-color: rgb(0 129 87) !important;
-    border-color: rgb(0 129 87) !important;
+    background-color: rgb(0 129 87);
+    border-color: rgb(0 129 87);
 }
 
 .input-control {
