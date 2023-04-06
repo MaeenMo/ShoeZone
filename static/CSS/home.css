@@ -19,6 +19,13 @@ main{
 .search{
 	max-width:20vw;
 }
+.form-control:focus {
+    outline: 0;
+	/*box-shadow: 2px 2px 0px 2px #888888;*/
+	border: 1px solid;
+    border-color: rgba(233, 160, 96, 0.5) !important;
+    box-shadow: 0px 0px 5px .1px rgba(233, 160, 96, 0.7) !important;
+    }
 /*Overridding search btn color*/
 .btn-outline-primary{
 	color: darkorange !important;
@@ -27,6 +34,10 @@ main{
 .btn-outline-primary:hover{
 	background-color:darkorange !important;
 	color:white !important;
+}
+.btn-outline-primary:active{
+	background-color:rgb(209, 115, 0)!important;
+	border-color: rgb(209, 115, 0) !important;
 }
 /*Cart/Profile*/
 .material-icons{

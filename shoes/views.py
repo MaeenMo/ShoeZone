@@ -71,14 +71,24 @@ def item_page(request, myid):
 def registration(request):
     if not get_referer(request):
         raise Http404
+    msg = []
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Your Account is Created Successfully")
+            username = form.cleaned_data.get('username')
+            messages.success(request, "{x} is Created Successfully".format(x=username))
             return redirect('login')
         else:
-            messages.error(request, "Password Doesn't Match :(")
+            if not form.cleaned_data.get('password1') == form.cleaned_data.get('password2'):
+                msg.append("Password Doesn't Match :(")
+            if User.objects.filter(username__contains=str(request.POST.get('username'))):
+                msg.append("Username Already Exists :(")
+            if str(form.cleaned_data.get('username')).isnumeric():
+                msg.append("Username Must Contain Letters :(")
+            if User.objects.filter(email__contains=str(request.POST.get('email'))):
+                msg.append("Email Already Exists :(")
+        return render(request, 'shoes/registration.html', {'form': form, 'page_name': 'Sign Up', 'errors': msg})
     else:
         form = RegistrationForm()
     return render(request, 'shoes/registration.html', {'form': form, 'page_name': 'Sign Up'})
@@ -204,7 +214,7 @@ def profile(request):
     msg = None
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=request.user)
-        if User.objects.filter(username__contains=request.POST.get('username')):
+        if User.objects.filter(username=request.POST.get('username')):
             if request.user.username == request.POST.get('username'):
                 pass
             else:

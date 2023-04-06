@@ -18,34 +18,25 @@
         <form id="form" method="POST">
             <a href="{% url 'shoes-home' %}"><button class="btn" style="max-width: 125px" type="button">← Back To Home</button></a>
             {% csrf_token %}
-            <h1>Sign Up</h1>
-            <h3 style="text-align: center">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}"></div>
-                        {{ message }}
-                    {% endfor %}
-                {% endif %}
-            </h3>
+            <h1 style="margin: 10px 0px">Sign Up</h1>
+                {% for i in errors %}
+                    <h4 style="text-align: center; margin: 0px 0px 0px; padding-left: 8px">{{ i }}</h4>
+                {% endfor %}
             <div class="input-control">
                 <label class="label" for="first_name">First Name</label>
                 {{ form.first_name }}
-                <div class="error"></div>
             </div>
             <div class="input-control">
                 <label class="label" for="last_name">Last Name</label>
                 {{ form.last_name }}
-                <div class="error"></div>
             </div>
             <div class="input-control">
                 <label class ="label" for="username">Username</label>
                 {{ form.username }}
-                <div class="error"></div>
             </div>
             <div class="input-control">
                 <label class ="label" for="email">Email</label>
                 {{ form.email }}
-                <div class="error"></div>
             </div>
             <div class="input-control">
                 <label class="label" for="password">Password</label>
