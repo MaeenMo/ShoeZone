@@ -45,6 +45,14 @@ body {
 	cursor: pointer;
 }
 
+#form button:hover{
+    box-shadow: 2px 2px 8px 0px rgb(0, 0, 0,0.7) ;
+}
+#form button:active{
+    background-color: rgb(0 129 87) !important;
+    border-color: rgb(0 129 87) !important;
+}
+
 .input-control {
 	display: flex;
 	flex-direction: column;
@@ -61,8 +69,11 @@ body {
 
 .input-control input:focus {
 	outline: 0;
-	box-shadow: 2px 2px 0px 2px #888888;
+	/*box-shadow: 2px 2px 0px 2px #888888;*/
 	border: 1px solid;
+
+    border-color: rgba(0, 159, 107, 0.5);
+    box-shadow: 0px 0px 5px .1px rgba(0, 159, 107, 0.7);
 }
 
 .input-control.success input {
@@ -88,11 +99,23 @@ body {
 		padding:0;
 	}
 	.input-control input {
-		font-size:20px;
+		font-size:12px;
 	}
+	.input-control input:focus {
+    outline: 0;
+	/*box-shadow: 2px 2px 0px 2px #888888;*/
+	border: 1px solid;
+
+    border-color: rgba(3, 70, 148, 0.5) ;
+    box-shadow: 0px 0px 5px .1px rgba(3, 70, 148, 0.7);
+    }
 	#form button {
-		background-color: #034694;
-	}
+    background-color: #034694;
+    }
+    #form button:active{
+    background-color: #023570 !important;
+    border-color: #023570 !important;
+    }
 }
 @media(max-width:712px) {
 	body {
@@ -132,10 +155,21 @@ body {
 		margin-left:0;
 		margin-right:0;
 	}
+	.input-control input:focus {
+    outline: 0;
+	/*box-shadow: 2px 2px 0px 2px #888888;*/
+	border: 1px solid;
+
+    border-color: rgba(233, 160, 96, 0.5) ;
+    box-shadow: 0px 0px 5px .1px rgba(233, 160, 96, 0.7);
+    }
 	#form button {
 		background-color: #e9a060;
-
 	}
+    #form button:active{
+    background-color:   #d89459 !important;
+    border-color: #d89459 !important;
+    }
 }
 @media(max-width:380px) {
 	body {
