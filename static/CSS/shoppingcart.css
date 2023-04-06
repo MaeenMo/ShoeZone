@@ -1,17 +1,19 @@
-/*body{*/
-/*    background-image: url("/static/Media/cart1.jpg") !important;*/
-/*    background-size:cover !important;*/
-/*}*/
-.gradient-custom {
+body{
+    background-image: url("/ShoeZone/static/Media/cart2.jpg") !important;
+    background-size:cover!important;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/*.gradient-custom {*/
     /* fallback for old browsers */
-    background: #6a11cb;
+/*    background: #6a11cb;*/
 
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+/*    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));*/
 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-}
+/*    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))*/
+/*}*/
 @media (max-width: 1400px) {
     p.text-start{
         width: 80px;

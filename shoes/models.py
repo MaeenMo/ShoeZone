@@ -7,7 +7,7 @@ class Shoe(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=20, default="Nike")
     price = models.CharField(max_length=10, default="EGP 50")
-    size = models.CharField(max_length=50, default="40, 41, 42, 43, 44, 45")
+    size = models.CharField(max_length=50, default="38 - 45")
     color = models.CharField(max_length=50, default="White")
     color_hexa = models.CharField(max_length=50, default="#000000")
     Type = models.CharField(max_length=10, default="Men")

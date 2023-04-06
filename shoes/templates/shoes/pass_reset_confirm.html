@@ -1,0 +1,51 @@
+{% extends 'shoes/base.html' %}
+{% load static %}
+{% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../../../media/shoes/Media/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ShoeZone/static/CSS/sign_in.css">
+{% endblock head %}
+
+{% block content %}
+    <div class="container">
+            <form id="form" method="POST" style="height: 68%">
+                {% csrf_token %}
+                <h1>Enter New Password</h1>
+                <h3 style="text-align: center">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}"></div>
+                            {{ message }}
+                        {% endfor %}
+                    {% endif %}
+                </h3>
+                <div class="input-control">
+                    <label class ="label" for="email">New Password</label>
+                    {{ form.new_password1 }}
+                </div>
+                <div class="input-control">
+                    <ul>
+                        <li>Your password can’t be too similar to your other personal information.</li>
+                        <li>Your password must contain at least 8 characters.</li>
+                        <li>Your password can’t be a commonly used password.</li>
+                        <li>Your password can’t be entirely numeric.</li>
+                    </ul>
+                </div>
+                <div class="input-control">
+                    <label class ="label" for="email">Confirm New Password</label>
+                    {{ form.new_password2 }}
+                    {% if form.errors %}
+                        <h4 style="text-align: left; margin: -10px 0px 0px; padding-left: 8px">{{ form.errors.new_password2 }}</h4>
+                    {% endif %}
+                </div>
+                <div class="input-control" style="text-align: center">
+                    <form action="#"><div><button id="button1" type="submit">Submit</button></div></form>
+                </div>
+            </form>
+    </div>
+{% endblock content %}

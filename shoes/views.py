@@ -5,6 +5,7 @@ from .form import *
 from random import randint, randrange
 from django.urls import reverse
 from django.http.response import JsonResponse
+from django.contrib.auth.views import *
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -191,4 +192,41 @@ def remove_From_Cart(request, xid):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     messages.success(request, "Item Not in Cart")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class PasswordChange(PasswordChangeView):
+    @property
+    def success_url(self):
+        return reverse_lazy('login')
+
+
+def profile(request):
+    msg = None
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user)
+        if User.objects.filter(username__contains=request.POST.get('username')):
+            if request.user.username == request.POST.get('username'):
+                pass
+            else:
+                messages.error(request, 'Username Already Exists :(')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        if request.POST.get('first_name').isnumeric() or request.POST.get('last_name').isnumeric():
+            messages.error(request, 'First/Last Name Can’t Be Entirely Numeric :(')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        if not request.POST.get('first_name') or not request.POST.get('last_name'):
+            messages.error(request, 'Do Not Leave First/Last Name Blank :(')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            if form.is_valid():
+                form.save()
+            msg = 'Data has been saved'
+    form = ProfileForm(instance=request.user)
+    context = {
+        'user': request.user,
+        'class_css': 'p-0 m-0 border-0 bd-example',
+        'nav': True,
+        'form': form,
+        'msg': msg
+    }
+    return render(request, 'shoes/profile.html', context)
 

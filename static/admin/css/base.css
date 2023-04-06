@@ -929,6 +929,10 @@ table#change-history tbody th {
     color: var(--accent);
 }
 
+#header a:link, #header a:visited, #logout-form button {
+    color: #ffffff;
+}
+
 #branding h2 {
     padding: 0 10px;
     font-size: 14px;
@@ -939,6 +943,17 @@ table#change-history tbody th {
 
 #branding a:hover {
     text-decoration: none;
+}
+
+#logout-form {
+    display: inline;
+}
+
+#logout-form button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 }
 
 #user-tools {
@@ -952,6 +967,18 @@ table#change-history tbody th {
     text-align: right;
 }
 
+#user-tools, #logout-form button{
+    padding: 0;
+    font-weight: 300;
+    font-size: 0.6875rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+#user-tools a, #logout-form button {
+    border-bottom: 1px solid rgb(255 255 255 / 25%);
+}
+
 #user-tools a {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
@@ -961,6 +988,19 @@ table#change-history tbody th {
     border-bottom-color: var(--primary);
     color: var(--primary);
 }
+
+#user-tools a:focus, #user-tools a:hover,
+#logout-form button:active, #logout-form button:hover {
+    text-decoration: none;
+    border-bottom: 0;
+    border-bottom-color: var(--primary);
+    color: var(--primary);
+}
+
+#logout-form button:active, #logout-form button:hover {
+    margin-bottom: 1px;
+}
+
 
 /* SIDEBAR */
 

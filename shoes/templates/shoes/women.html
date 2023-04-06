@@ -29,22 +29,22 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman1.jpg" class="d-block w-100 slider_img" alt="...">
+                        <img draggable="false" src="/ShoeZone/static/Media/woman1.webp" class="d-block w-100 slider_img" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman2.png" class="d-block w-100 slider_img" alt="...">
+                        <img draggable="false" src="/ShoeZone/static/Media/woman2.webp" class="d-block w-100 slider_img" alt="...">
                     </div>
                     <div  class="carousel-item">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman3.png" class="d-block w-100 slider_img" alt="...">
+                        <img draggable="false" src="/ShoeZone/static/Media/woman3.webp" class="d-block w-100 slider_img" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman4.jpg" class="d-block w-100 slider_img" alt="...">
+                        <img draggable="false" src="/ShoeZone/static/Media/woman4.webp" class="d-block w-100 slider_img" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman5.png" class="d-block w-100 slider_img" alt="...">
+                        <img draggable="false" src="/ShoeZone/static/Media/woman5.webp" class="d-block w-100 slider_img" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img draggable="false" src="/ShoeZone/static/Media/woman6.png" class="d-block w-100 slider_img" alt="..." >
+                        <img draggable="false" src="/ShoeZone/static/Media/woman6.webp" class="d-block w-100 slider_img" alt="..." >
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="width:6vw">
@@ -97,11 +97,21 @@
 {% endblock content %}
 
 {% block additional %}
-<script>
-    AOS.init({
-        duration:800,
-        offset:300,
-        easing:'ease-out-back',
-    });
-</script>
+    <script>
+        AOS.init({
+            duration:800,
+            offset:300,
+            easing:'ease-out-back',
+        });
+    </script>
+    <script>
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+        }
+    else {
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+    }
+    </script>
 {% endblock additional %}

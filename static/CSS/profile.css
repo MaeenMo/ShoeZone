@@ -1,0 +1,83 @@
+body {
+    background-image: url("/ShoeZone/static/Media/shoe.jpg");
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin:0;
+    padding:0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /*font-family: 'Poppins', sans-serif;*/
+}
+.labels {
+    font-size: 14px;
+}
+
+.input-control input {
+    font-size: 16px !important;
+}
+
+.label {
+    font-size: 14px;
+}
+
+.form-control:focus{
+    border-color: rgba(255, 140, 0, 0.5) !important;
+    box-shadow: 0px 0px 5px .1px rgba(255, 140, 0, 0.7) !important;
+}
+
+/*.container{*/
+/*    !*width: 600px !important;*!*/
+/*    max-width: 80vw !important;*/
+/*}*/
+
+.profile-button{
+    background-color: darkorange !important;
+    border-color: darkorange !important;
+}
+.profile-button:hover{
+    box-shadow: 2px 2px 8px 0px rgb(0, 0, 0,0.7) ;
+}
+.profile-button:active{
+    background-color: rgb(209, 115, 0) !important;
+    border-color: rgb(209, 115, 0) !important;
+}
+@media(max-width:1030px){
+    body{
+        background-image: url("/ShoeZone/static/Media/1024.jpg") !important;
+        background-size:cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin:0;
+        padding:0;
+    }
+}
+@media(max-width:712px) {
+    body {
+        background-image: url("/ShoeZone/static/Media/712.jpg") !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+    }
+}
+@media(max-width:450px){
+    body{
+        background-image: url("/ShoeZone/static/Media/412.jpg") !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color:#0071c5 !important;
+        width:100%;
+    }
+}
+@media(max-width:380px) {
+    body {
+        background-image: url("/ShoeZone/static/Media/375.jpg") !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+    }
+}

@@ -54,6 +54,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 {% if user.is_authenticated %}
+                                    <li><a class="dropdown-item dropmenu_hover" href="{% url 'profile' %}" name="">Profile</a></li>
                                     <li><a class="dropdown-item dropmenu_hover" href="{% url 'logout' %}" name="register">Logout</a></li>
                                 {% else %}
                                     <li><a class="dropdown-item dropmenu_hover" href="{% url 'login' %}" name="register">SignIn/SignUp</a></li>
@@ -73,24 +74,25 @@
                     }
                 </script>
                 {% if user.is_authenticated %}
-                    <li class="nav-item ipad">
+                    <li class="nav-item ipad" style="list-style:none;">
                         <a class="nav-link " href="{% url 'cart' %}">
                             <i class="material-icons" style="font-size:42px;margin:5px 0px 0px 23px;" title="Shopping Cart">shopping_cart</i>
                         </a>
                     </li>
                 {% else %}
-                    <li class="nav-item ipad">
+                    <li class="nav-item ipad" style="list-style:none;">
                         <a class="nav-link " onclick="myfunction()" href="">
                             <i class="material-icons" style="font-size:42px;margin:5px 0px 0px 23px;" title="Shopping Cart">shopping_cart</i>
                         </a>
                     </li>
                 {% endif %}
-                <li class="nav-item dropdown ipad" style="margin-top: -10px">
+                <li class="nav-item dropdown ipad" style="margin-top: -10px;list-style:none;">
                     <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle material-icons" style="font-size:38px; margin:0px 0px 0px 16px;" title="Profile"></i>
                     </a>
                     <ul class="dropdown-menu" style="margin:1.4vw 0vw 0vw -190%">
                         {% if user.is_authenticated %}
+                            <li><a class="dropdown-item dropmenu_hover" href="{% url 'profile' %}" name="">Profile</a></li>
                             <li><a class="dropdown-item dropmenu_hover" href="{% url 'logout' %}" name="register">Logout</a></li>
                         {% else %}
                             <li><a class="dropdown-item dropmenu_hover" href="{% url 'login' %}" name="register">SignIn/SignUp</a></li>
@@ -139,7 +141,6 @@
 
 {% block additional %}
 {% endblock additional %}
-
 </html>
 
 <!--Three blocks:
