@@ -58,13 +58,23 @@ def search_shoes(request):
 
 
 def item_page(request, myid):
-    # if not get_referer(request):
-    #     raise Http404
+    if not get_referer(request):
+        raise Http404
     context = {
         'shoes': Shoe.objects.filter(id=myid),
         'page_name': 'Item Page',
         'nav': True
     }
+    y = []
+    x = []
+    x = Shoe.objects.filter(name=Shoe.objects.get(id=myid).name)
+    if x.count() > 1:
+        context["more_items"] = x
+        for i in x:
+            y.append(i.id)
+        context['more_items_id'] = y
+    else:
+        context["more_items"] = []
     return render(request, 'shoes/itempage.html', context)
 
 

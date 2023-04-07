@@ -67,12 +67,26 @@
                       </script>
                   <div class="color" >
                       <h5>color</h5>
-                      <ul>
-                              {% if i.color_hexa != "#000000" %}
-                                   <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 7px white, 0 0 10px 5px black;"></li>
-                              {% else %}
-                                  <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 7px white, 0 0 10px 5px black;"></li>
-                              {% endif %}
+                       <ul>
+                      {% if more_items %}
+                          {% for j in more_items %}
+                              {% for x in more_items_id %}
+                                  {% if j.id == x %}
+                                    {% if j.color_hexa != "#000000" %}
+                                      <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                    {% else %}
+                                        <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                    {% endif %}
+                                  {% endif %}
+                              {% endfor %}
+                          {% endfor %}
+                      {% else %}
+                          {% if i.color_hexa != "#000000" %}
+                              <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                          {% else %}
+                              <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                          {% endif %}
+                      {% endif %}
                       </ul>
                       <div class="footer1" style="margin-top: 50px" >
                           {% if user.is_authenticated %}
