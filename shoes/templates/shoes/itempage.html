@@ -35,17 +35,37 @@
                     <span class="current">{{ i.price }}</span>
                   </div>
                 </header>
-            {#    <div class="controls" >#}
-            {#      <div class="size">#}
-            {#        <h5>size</h5>#}
-            {#          <h6>{{ i.size }}</h6>#}
-            {#      </div>#}
-            {#    </div>#}
-                  <form method="POST" action="/add_product/{{ i.id }}">
-                  {% csrf_token %}
-                  <div class="controls" >
-                      <div class="size" style="max-width: 10vw;">
-                          <h5>size</h5>
+                  <div class="color" style="margin-top: 60px">
+                              {% if more_items %}
+                                  <h5>select color:</h5>
+                                  <ul>
+                                  {% for j in more_items %}
+                                      {% for x in more_items_id %}
+                                          {% if j.id == x %}
+                                              {% if j.color_hexa != "#000000" %}
+                                                  <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                              {% else %}
+                                                  <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                              {% endif %}
+                                          {% endif %}
+                                      {% endfor %}
+                                  {% endfor %}
+                                  </ul>
+                              {% else %}
+                                  <h5>Available color:</h5>
+                                  <ul>
+                                  {% if i.color_hexa != "#000000" %}
+                                      <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                                  {% else %}
+                                      <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                                  {% endif %}
+                                  </ul>
+                              {% endif %}
+                      </div>
+                     <form method="POST" action="/add_product/{{ i.id }}">
+                      {% csrf_token %}
+                      <div class="size" style="max-width: 10vw; margin-top: 20px">
+                          <h5>select size:</h5>
 {#                          <h6>{{ i.size }}</h6>#}
                           <select name="sizeselect">
                               <option selected disabled="true">---Select Size---</option>
@@ -59,35 +79,11 @@
                               <option>45</option>
                           </select>
                       </div>
-                  </div>
-                  <script>
+                      <script>
                           function myfunction(){
                               alert("Please Sign in :(");
                           }
                       </script>
-                  <div class="color" >
-                      <h5>color</h5>
-                       <ul>
-                      {% if more_items %}
-                          {% for j in more_items %}
-                              {% for x in more_items_id %}
-                                  {% if j.id == x %}
-                                    {% if j.color_hexa != "#000000" %}
-                                      <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
-                                    {% else %}
-                                        <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
-                                    {% endif %}
-                                  {% endif %}
-                              {% endfor %}
-                          {% endfor %}
-                      {% else %}
-                          {% if i.color_hexa != "#000000" %}
-                              <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
-                          {% else %}
-                              <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
-                          {% endif %}
-                      {% endif %}
-                      </ul>
                       <div class="footer1" style="margin-top: 50px" >
                           {% if user.is_authenticated %}
 {#                              {% csrf_token %}#}
@@ -110,7 +106,6 @@
                                   {% endfor %}
                               {% endif %}
                       </div>
-                  </div>
                   </form>
               </div>
             </div>
