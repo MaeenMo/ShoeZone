@@ -38,7 +38,7 @@
                   <div class="color" style="margin-top: 60px">
                               {% if more_items %}
                                   <h5>select color:</h5>
-                                  <ul>
+                                  <ul style="margin: 0px">
                                   {% for j in more_items %}
                                       {% for x in more_items_id %}
                                           {% if j.id == x %}
@@ -53,7 +53,7 @@
                                   </ul>
                               {% else %}
                                   <h5>Available color:</h5>
-                                  <ul>
+                                  <ul style="margin: 0px">
                                   {% if i.color_hexa != "#000000" %}
                                       <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
                                   {% else %}
@@ -86,13 +86,10 @@
                       </script>
                       <div class="footer1" style="margin-top: 50px" >
                           {% if user.is_authenticated %}
-{#                              {% csrf_token %}#}
-{#                              <a href="/add_product/{{ i.id }}" style="text-decoration: none; display: inline">#}
                                   <button type="submit">
                                       <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
                                       <span>add to cart</span>
                                   </button>
-{#                              </a>#}
                           {% else %}
                                   <button type="button" onclick="myfunction()">
                                       <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">

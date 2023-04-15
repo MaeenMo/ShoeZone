@@ -1,5 +1,5 @@
 body {
-    background-image: url("/ShoeZone/static/Media/shoe.jpg");
+    background-image: url("/ShoeZone/static/Media/shoe.webp");
     background-size:cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -43,7 +43,7 @@ body {
 }
 @media(max-width:1030px){
     body{
-        background-image: url("/ShoeZone/static/Media/1024.jpg") !important;
+        background-image: url("/ShoeZone/static/Media/1024.webp") !important;
         background-size:cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -53,7 +53,7 @@ body {
 }
 @media(max-width:712px) {
     body {
-        background-image: url("/ShoeZone/static/Media/712.jpg") !important;
+        background-image: url("/ShoeZone/static/Media/712.webp") !important;
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -63,7 +63,7 @@ body {
 }
 @media(max-width:450px){
     body{
-        background-image: url("/ShoeZone/static/Media/412.jpg") !important;
+        background-image: url("/ShoeZone/static/Media/412.webp") !important;
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -73,7 +73,7 @@ body {
 }
 @media(max-width:380px) {
     body {
-        background-image: url("/ShoeZone/static/Media/375.jpg") !important;
+        background-image: url("/ShoeZone/static/Media/375.webp") !important;
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;

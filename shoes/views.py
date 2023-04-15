@@ -250,7 +250,7 @@ def profile(request):
         else:
             if form.is_valid():
                 form.save()
-            msg = 'Data has been saved'
+                msg = 'Data has been saved'
     form = ProfileForm(instance=request.user)
     context = {
         'user': request.user,
