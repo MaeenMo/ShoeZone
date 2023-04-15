@@ -16,6 +16,7 @@ urlpatterns = [
     path('cart/', views.cart, name='cart'),
     path('add_product/<int:xid>', views.add_To_Cart, name='add_product'),
     path('remove_product/<int:xid>', views.remove_From_Cart, name='remove_product'),
+    path('remove_quantity/<int:xid>', views.remove_quantity, name='remove_quantity'),
     path('checkout/', views.checkout, name='checkout'),
     path('item/<int:myid>', views.item_page, name='item-page'),
     # Password Reset

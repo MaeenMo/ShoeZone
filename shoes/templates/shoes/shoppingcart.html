@@ -53,32 +53,40 @@
                                         </div>
                                         <!-- Image -->
                                     </div>
-                                    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                    <div class="col-lg-5 col-md-6 mb-lg-0">
                                         <!-- Data -->
                                         <p><strong>{{ i.product.name }}</strong></p>
-                                        <p>Color: {{ i.product.color }}</p>
-                                        <p>Size: {{ i.selected_size }}</p>
+                                        <p><strong>Color:</strong> {{ i.product.color }}</p>
+                                        <p style="margin-bottom: 0"><strong>Size:</strong> {{ i.selected_size }}</p>
                                         <!--Delete Button-->
-                                        <a href="/remove_product/{{ i.product.id }}">
-                                            <button type="button" class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip" title="Remove item">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </a>
+                                        <div class="col-lg-1 col-md-6 mb-3 mt-3 lg-0">
+                                            <a href="/remove_product/{{ i.product.id }}">
+                                                <button type="button" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </a>
+                                        </div>
                                         <!-- Data -->
                                     </div>
+                                    <!-- Quantity & Price -->
                                     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                        <!-- Quantity -->
                                         <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                             <div class="d-flex mb-4" style="max-width: 300px">
                                                 <div class="form-outline">
-                                                    <p class="text-start "><strong>Quantity:</strong>  {{ i.product_qty }}</p>
+                                                    <p class="text-start" style="margin-bottom: 0"><strong>Quantity:</strong>  {{ i.product_qty }}</p>
+                                                    <div class="col-lg-1 col-md-6 mb-3 mt-3 lg-0">
+                                                        <a href="/remove_quantity/{{ i.product.id }}">
+                                                            <button type="button" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
                                                     <p class="text-start ">
                                                         <strong>Item Price:</strong> {{ i.product.price }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Quantity & Price -->
                                     </div>
                                 </div>
                                 <!-- Single item -->

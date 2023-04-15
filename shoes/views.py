@@ -19,18 +19,19 @@ def get_referer(request):
         return None
     return referer
 
+
 def home(request):
     x = [None for i in range(4)]
     count = int(Shoe.objects.count())
     arr = [1 for i in range(count)]
     for i in range(1, count):
-        arr[i] = arr[i-1] + 1
+        arr[i] = arr[i - 1] + 1
     y = 0
     for i in Shoe.objects.all():
         i.shoe_num = arr[y]
         i.save()
         y += 1
-    temp = [count-3, count-2, count-1, count]
+    temp = [count - 3, count - 2, count - 1, count]
     for i in range(4):
         x[i] = Shoe.objects.get(shoe_num=temp[i])
     context = {
@@ -139,7 +140,7 @@ def cart(request):
     total_price = 0
     context = {
         'shoes': Shoe.objects.all(),
-        'cart_items': User_Order.objects.filter(owner_id=request.user.id, ordered=False),
+        'cart_items': Cart_item.objects.filter(owner_id=request.user.id, ordered=False),
         'page_name': 'Cart',
         'nav': False
     }
@@ -150,19 +151,26 @@ def cart(request):
                 if j.isnumeric():
                     temp += j
             total_price += int(temp) * i.product_qty
+    price = str(total_price)
+    if 1000 <= total_price <= 9999:
+        price = "{x},{y}".format(x=price[0], y=price[1:])
+    elif 9999 < total_price <= 99999:
+        price = "{x},{y}".format(x=price[0:2], y=price[2:])
+    elif total_price > 99999:
+        price = "{x},{y}".format(x=price[0:3], y=price[3:])
     total_items = context['cart_items'].count()
     context['no_items'] = int(total_items)
-    context['total_price'] = total_price
-    context['price_with_shipping'] = total_price + 40
+    context['total_price'] = price
     return render(request, 'shoes/shoppingcart.html', context)
+
 
 def checkout(request):
     if not get_referer(request):
         raise Http404
     total_price = 0
-    if User_Order.objects.filter(ordered=False, owner=request.user):
+    if Cart_item.objects.filter(ordered=False, owner=request.user):
         x = randint(100000, 999999)
-        for i in User_Order.objects.filter(owner=request.user, ordered=False):
+        for i in Cart_item.objects.filter(owner=request.user, ordered=False):
             i.ordered = True
             i.created_at = datetime.datetime.now()
             i.order_num = "#{h}".format(h=x)
@@ -172,15 +180,25 @@ def checkout(request):
                 if j.isnumeric():
                     temp_p += j
             total_price += int(temp_p) * i.product_qty
-            # i.delete()
+        price = str(total_price)
+        if 1000 <= total_price <= 9999:
+            price = "{x},{y}".format(x=price[0], y=price[1:])
+        elif 9999 < total_price <= 99999:
+            price = "{x},{y}".format(x=price[0:2], y=price[2:])
+        elif total_price > 99999:
+            price = "{x},{y}".format(x=price[0:3], y=price[3:])
         temp = ""
-        for i in User_Order.objects.filter(owner=request.user, ordered=True):
-            temp += "Shoe Name: {x}\nShoe Brand: {q}\nSelected Sizes: {z}\nQuantity: {y}\n\n".format(x=i.product.name, q=i.product.brand, z=i.selected_size, y=i.product_qty)
+        for i in Cart_item.objects.filter(owner=request.user, ordered=True):
+            temp += "Shoe Name: {x}\nShoe Brand: {q}\nSelected Color: {w}\nSelected Sizes: {z}\nQuantity: {y}\n\n".format(x=i.product.name,
+                                                                                                     q=i.product.brand,
+                                                                                                     w=i.product.color,
+                                                                                                     z=i.selected_size,
+                                                                                                     y=i.product_qty)
             i.delete()
         Order.objects.create(order_no="#{z}".format(z=x), items=temp)
         other = Order.objects.get(order_no="#{h}".format(h=x))
         other.user_ordered = "{x} {y}".format(x=str(request.user.first_name), y=str(request.user.last_name))
-        other.total_price = "EGP " + str(total_price)
+        other.total_price = "EGP " + price
         other.save()
         context = {
             'page_name': "Checkout",
@@ -193,20 +211,21 @@ def checkout(request):
         }
     return render(request, 'shoes/checkout.html', context)
 
+
 def add_To_Cart(request, xid):
     if not get_referer(request):
         raise Http404
     if request.POST.get("sizeselect"):
-        if User_Order.objects.filter(product_id=xid, ordered=False, owner=request.user):
-            check = User_Order.objects.get(product_id=xid, owner=request.user)
+        if Cart_item.objects.filter(product_id=xid, ordered=False, owner=request.user):
+            check = Cart_item.objects.get(product_id=xid, owner=request.user)
             check.selected_size += ", {y}".format(y=request.POST.get("sizeselect"))
             check.product_qty += 1
             check.save()
             messages.success(request, "Item Already in Cart")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        User_Order.objects.create(owner=request.user, product_id=xid, product_qty=1)
+        Cart_item.objects.create(owner=request.user, product_id=xid, product_qty=1)
         messages.success(request, "Item Added To Cart")
-        hh = User_Order.objects.get(owner=request.user, product_id=xid)
+        hh = Cart_item.objects.get(owner=request.user, product_id=xid)
         hh.selected_size = request.POST.get("sizeselect")
         hh.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -214,16 +233,33 @@ def add_To_Cart(request, xid):
         messages.success(request, "Please Select a Size")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
 def remove_From_Cart(request, xid):
     if not get_referer(request):
         raise Http404
-    if User_Order.objects.filter(product_id=xid, owner=request.user):
-        check = User_Order.objects.get(product_id=xid, owner=request.user)
+    if Cart_item.objects.filter(product_id=xid, owner=request.user):
+        check = Cart_item.objects.get(product_id=xid, owner=request.user)
         check.delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     messages.success(request, "Item Not in Cart")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+def remove_quantity(request, xid):
+    if not get_referer(request):
+        raise Http404
+    temp = Cart_item.objects.get(product_id=xid, owner=request.user)
+    if Cart_item.objects.filter(product_id=xid, owner=request.user) and temp.selected_size.__contains__(','):
+        check = Cart_item.objects.get(product_id=xid, owner=request.user)
+        check.product_qty -= 1
+        i = len(check.selected_size) - 1
+        x = str(check.selected_size)[:i-3]
+        check.selected_size = x
+        check.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    elif not temp.selected_size.__contains__(','):
+        remove_From_Cart(request, temp.product_id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 class PasswordChange(PasswordChangeView):
     @property
@@ -260,4 +296,3 @@ def profile(request):
         'msg': msg
     }
     return render(request, 'shoes/profile.html', context)
-
