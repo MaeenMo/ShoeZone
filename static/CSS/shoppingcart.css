@@ -12,6 +12,10 @@ body{
         width: 80px;
     }
 }
+.hide{
+    display: none;
+}
+
 .select-menu .select-btn {
     /*padding: 20px;*/
     font-size: 18px;

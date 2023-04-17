@@ -6,13 +6,11 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
 
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">-->
 
     <link href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script defer src="/ShoeZone/static/CSS/cart.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 {% endblock head %}
 
@@ -26,18 +24,8 @@
                         <div class="card-header py-3">
                             {% if no_items == 1 %}
                                 <h5 class="mb-0">Cart - {{ no_items }} item</h5>
-{#                                {% if messages %}#}
-{#                                    {% for message in messages %}#}
-{#                                        {{ message }}#}
-{#                                    {% endfor %}#}
-{#                                {% endif %}#}
                             {% else %}
                                 <h5 class="mb-0">Cart - {{ no_items }} items</h5>
-{#                                {% if messages %}#}
-{#                                    {% for message in messages %}#}
-{#                                        {{ message }}#}
-{#                                    {% endfor %}#}
-{#                                {% endif %}#}
                             {% endif %}
                         </div>
                         <div class="card-body">
@@ -77,9 +65,6 @@
                                                         <i class="fas fa-minus"></i>
                                                     </button>
                                                 </a>
-{#                                                <div class="form-outline">#}
-{#                                                    <p class="text-start" style="margin-bottom: 0"><strong>Quantity:</strong>  {{ i.product_qty }}</p>#}
-{#                                                </div>#}
                                                 <div class="form-outline" >
                                                     <input id="form1" min="1" name="quantity" type="text" value="{{ i.product_qty }}" disabled class="form-control active">
                                                     <label class="form-label" for="form1" style="margin-left: 0px;">Quantity</label>
@@ -89,44 +74,39 @@
                                                         <div class="form-notch-trailing"></div>
                                                     </div>
                                                 </div>
-{#                                                ///////////////#}
-                                                <span class="select-menu">
-                                                    <div class="select-btn">
+                                                <!-- Quantity -->
+                                                <div class="select-menu" id="{{ i.product.id }}">
+                                                    <div class="select-btn" id="B{{ i.product.id }}">
                                                         <button type="button" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Add item"><i class="fas fa-plus"></i></button>
                                                     </div>
-                                                    <ul class="options">
-                                                        <a href="/add_quantity/{{ i.product.id }}/38"><li class="option">
+                                                    <ul class="options" style="list-style-type: none" id="L{{ i.product.id }}">
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/38">
                                                             <span class="option-text">38</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/39"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/39">
                                                             <span class="option-text">39</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/40"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/40">
                                                             <span class="option-text">40</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/41"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/41">
                                                             <span class="option-text">41</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/42"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/42">
                                                             <span class="option-text">42</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/43"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/43">
                                                             <span class="option-text">43</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/44"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/44">
                                                             <span class="option-text">44</span>
-                                                        </li></a>
-                                                        <a href="/add_quantity/{{ i.product.id }}/45"><li class="option">
+                                                        </a></li>
+                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/45">
                                                             <span class="option-text">45</span>
-                                                        </li></a>
+                                                        </a></li>
                                                     </ul>
-                                                </span>
-{#                                                /////////////#}
-{#                                                <a href="">#}
-{#                                                    <button type="button" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">#}
-{#                                                        <i class="fas fa-plus"></i>#}
-{#                                                    </button>#}
-{#                                                </a>#}
+                                                </div>
+                                                <!-- Price -->
                                             </div>
                                             <p style="text-align: center">
                                                 <strong>{{ i.product.price }}</strong>
@@ -136,6 +116,23 @@
                                 <!-- Single item -->
                                 <hr class="my-4" />
                             {% endfor %}
+                            <script type="text/javascript">
+                                const
+                                    list = [],
+                                    array = [],
+                                    array2 = [];
+                                let j = 0;
+                                {% for i in cart_items %}
+                                    array[j] = document.getElementById("{{ i.product.id }}");
+                                    array2[j] = document.getElementById("B{{ i.product.id }}");
+                                    list[j] = document.getElementById("L{{ i.product.id }}");
+                                    list[j].classList.toggle("hide")
+                                    j ++;
+                                {% endfor %}
+                                for (let x = 0; x < j; x++) {
+                                    array2[x].addEventListener("click", () => array[x].classList.toggle("active"), () => list[x].classList.toggle(""));
+                                }
+                            </script>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0">
