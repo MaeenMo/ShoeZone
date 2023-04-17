@@ -29,7 +29,7 @@ class Cart_item(models.Model):
     order_num = models.CharField(max_length=20, default="#000000")
 
     def __str__(self):
-        return str("In Cart Product: {x}".format(x=self.product.name))
+        return "In Cart: {x} ({y})".format(x=self.product.name, y=self.owner)
 
 
 class Order(models.Model):

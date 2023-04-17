@@ -96,7 +96,7 @@ def registration(request):
     msg = []
     if request.method == "POST":
         form = RegistrationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and not User.objects.filter(email__contains=str(request.POST.get('email'))):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, "{x} is Created Successfully".format(x=username))
@@ -232,6 +232,13 @@ def add_To_Cart(request, xid):
     else:
         messages.success(request, "Please Select a Size")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def additional_size(request, hid, jid):
+    check = Cart_item.objects.get(product_id=hid, owner=request.user)
+    check.selected_size += ", {y}".format(y=jid)
+    check.product_qty += 1
+    check.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 def remove_From_Cart(request, xid):

@@ -15,6 +15,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='shoes/sign_out.html'), name='logout'),
     path('cart/', views.cart, name='cart'),
     path('add_product/<int:xid>', views.add_To_Cart, name='add_product'),
+    path('add_quantity/<int:hid>/<int:jid>', views.additional_size, name='add_quantity'),
     path('remove_product/<int:xid>', views.remove_From_Cart, name='remove_product'),
     path('remove_quantity/<int:xid>', views.remove_quantity, name='remove_quantity'),
     path('checkout/', views.checkout, name='checkout'),
