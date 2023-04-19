@@ -1,24 +1,19 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 import datetime
 from .models import *
 from .form import *
-from random import randint, randrange
-from django.urls import reverse
-from django.http.response import JsonResponse
+from random import randint
 from django.contrib.auth.views import *
 from django.http import HttpResponseRedirect, Http404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
 
-
+# Function To Check For URL Direct Access
 def get_referer(request):
     referer = request.META.get('HTTP_REFERER')
     if not referer:
         return None
     return referer
-
+##########################################
 
 def home(request):
     x = [None for i in range(4)]
@@ -69,22 +64,18 @@ def search_shoes(request):
     return render(request, 'shoes/search_shoes.html', context)
 
 
-def item_page(request, myid):
+def item_page(request, item_id):
     if not get_referer(request):
         raise Http404
     context = {
-        'shoes': Shoe.objects.filter(id=myid),
+        'shoes': Shoe.objects.filter(id=item_id),
         'page_name': 'Item Page',
         'nav': True
     }
-    y = []
     x = []
-    x = Shoe.objects.filter(name=Shoe.objects.get(id=myid).name)
+    x = Shoe.objects.filter(name=Shoe.objects.get(id=item_id).name)
     if x.count() > 1:
         context["more_items"] = x
-        for i in x:
-            y.append(i.id)
-        context['more_items_id'] = y
     else:
         context["more_items"] = []
     return render(request, 'shoes/itempage.html', context)
@@ -212,20 +203,20 @@ def checkout(request):
     return render(request, 'shoes/checkout.html', context)
 
 
-def add_To_Cart(request, xid):
+def add_To_Cart(request, cart_item_id):
     if not get_referer(request):
         raise Http404
     if request.POST.get("sizeselect"):
-        if Cart_item.objects.filter(product_id=xid, ordered=False, owner=request.user):
-            check = Cart_item.objects.get(product_id=xid, owner=request.user)
+        if Cart_item.objects.filter(product_id=cart_item_id, ordered=False, owner=request.user):
+            check = Cart_item.objects.get(product_id=cart_item_id, owner=request.user)
             check.selected_size += ", {y}".format(y=request.POST.get("sizeselect"))
             check.product_qty += 1
             check.save()
             messages.success(request, "Item Already in Cart")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        Cart_item.objects.create(owner=request.user, product_id=xid, product_qty=1)
+        Cart_item.objects.create(owner=request.user, product_id=cart_item_id, product_qty=1)
         messages.success(request, "Item Added To Cart")
-        hh = Cart_item.objects.get(owner=request.user, product_id=xid)
+        hh = Cart_item.objects.get(owner=request.user, product_id=cart_item_id)
         hh.selected_size = request.POST.get("sizeselect")
         hh.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
@@ -233,31 +224,31 @@ def add_To_Cart(request, xid):
         messages.success(request, "Please Select a Size")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-def additional_size(request, hid, jid):
-    check = Cart_item.objects.get(product_id=hid, owner=request.user)
-    check.selected_size += ", {y}".format(y=jid)
+
+def additional_size(request, product_id, add_size_id):
+    check = Cart_item.objects.get(product_id=product_id, owner=request.user)
+    check.selected_size += ", {y}".format(y=add_size_id)
     check.product_qty += 1
     check.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-
-def remove_From_Cart(request, xid):
+def remove_From_Cart(request, delete_item_id):
     if not get_referer(request):
         raise Http404
-    if Cart_item.objects.filter(product_id=xid, owner=request.user):
-        check = Cart_item.objects.get(product_id=xid, owner=request.user)
+    if Cart_item.objects.filter(product_id=delete_item_id, owner=request.user):
+        check = Cart_item.objects.get(product_id=delete_item_id, owner=request.user)
         check.delete()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     messages.success(request, "Item Not in Cart")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
-def remove_quantity(request, xid):
+def remove_quantity(request, remove_quantity_id):
     if not get_referer(request):
         raise Http404
-    temp = Cart_item.objects.get(product_id=xid, owner=request.user)
-    if Cart_item.objects.filter(product_id=xid, owner=request.user) and temp.selected_size.__contains__(','):
-        check = Cart_item.objects.get(product_id=xid, owner=request.user)
+    temp = Cart_item.objects.get(product_id=remove_quantity_id, owner=request.user)
+    if Cart_item.objects.filter(product_id=remove_quantity_id, owner=request.user) and temp.selected_size.__contains__(','):
+        check = Cart_item.objects.get(product_id=remove_quantity_id, owner=request.user)
         check.product_qty -= 1
         i = len(check.selected_size) - 1
         x = str(check.selected_size)[:i-3]

@@ -38,15 +38,11 @@
                                   <h5>select color:</h5>
                                   <ul style="margin: 0px">
                                   {% for j in more_items %}
-                                      {% for x in more_items_id %}
-                                          {% if j.id == x %}
-                                              {% if j.color_hexa != "#000000" %}
-                                                  <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
-                                              {% else %}
-                                                  <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
-                                              {% endif %}
-                                          {% endif %}
-                                      {% endfor %}
+                                      {% if j.color_hexa != "#000000" %}
+                                          <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                      {% else %}
+                                          <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                      {% endif %}
                                   {% endfor %}
                                   </ul>
                               {% else %}
@@ -64,7 +60,6 @@
                       {% csrf_token %}
                       <div class="size" style="max-width: 10vw; margin-top: 20px">
                           <h5>select size:</h5>
-{#                          <h6>{{ i.size }}</h6>#}
                           <select name="sizeselect">
                               <option selected disabled="true">---Select Size---</option>
                               <option>38</option>

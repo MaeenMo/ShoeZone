@@ -30,6 +30,18 @@
                         </div>
                         <div class="card-body">
                             <!-- Single item -->
+                            {% if not cart_items %}
+                                <h3 style="text-align: center">
+                                    Nothing To Display :(
+                                </h3>
+                                <div style="justify-content: center; display: flex; margin-top: 15px">
+                                    <a href="{% url 'shoes-home' %}">
+                                        <button type="button" name="checkout" class="btn btn-primary btn-lg btn-block"  style="background:darkorange">
+                                            Back To Home
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
                             {% for i in cart_items %}
                                 <div class="row">
                                     <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
@@ -80,6 +92,7 @@
                                                         <button type="button" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Add item"><i class="fas fa-plus"></i></button>
                                                     </div>
                                                     <ul class="options" style="list-style-type: none" id="L{{ i.product.id }}">
+                                                        <h6 class="text-center">Select Size</h6>
                                                         <li><a class="option" href="/add_quantity/{{ i.product.id }}/38">
                                                             <span class="option-text">38</span>
                                                         </a></li>
@@ -99,7 +112,7 @@
                                                             <span class="option-text">43</span>
                                                         </a></li>
                                                         <li><a class="option" href="/add_quantity/{{ i.product.id }}/44">
-                                                            <span class="option-text">44</span>
+                                                            <span class="option-text ">44</span>
                                                         </a></li>
                                                         <li><a class="option" href="/add_quantity/{{ i.product.id }}/45">
                                                             <span class="option-text">45</span>
