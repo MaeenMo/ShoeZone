@@ -54,6 +54,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 {% if user.is_authenticated %}
+                                    <h6 class="wlcmMsg">Hi, {{ user.username }}</h6>
+                                    <hr style="margin:5px">
                                     <li><a class="dropdown-item dropmenu_hover" href="{% url 'profile' %}" name="">Profile</a></li>
                                     <li><a class="dropdown-item dropmenu_hover" href="{% url 'logout' %}" name="register">Logout</a></li>
                                 {% else %}
@@ -92,6 +94,8 @@
                     </a>
                     <ul class="dropdown-menu" style="margin:1.4vw 0vw 0vw -190%">
                         {% if user.is_authenticated %}
+                            <h6 class="wlcmMsg">Hi, {{ user.username }}</h6>
+                            <hr style="margin:5px">
                             <li><a class="dropdown-item dropmenu_hover" href="{% url 'profile' %}" name="">Profile</a></li>
                             <li><a class="dropdown-item dropmenu_hover" href="{% url 'logout' %}" name="register">Logout</a></li>
                         {% else %}
