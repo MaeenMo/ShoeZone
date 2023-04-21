@@ -22,7 +22,7 @@ body {
   align-items: center;
 }
 
-h5 {
+.label {
   text-transform: uppercase;
   margin: 0;
   font-size: 14px;
