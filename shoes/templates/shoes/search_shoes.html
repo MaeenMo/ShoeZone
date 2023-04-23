@@ -22,7 +22,7 @@
         <div data-aos="zoom" class="filter" data-aos-offset="200" data-aos-delay="0">
             <form method="POST" action="/sort/{{ searched }}">
                 {% csrf_token %}
-                <h5 style="display:inline">Sort By: </h5><h6 style="display: inline;" id="choosen">{{ sort }}</h6>
+                <h5 onclick="myfunc();" style="display:inline">Sort By: </h5><h6 onclick="myfunc();" style="display: inline;" id="choosen">{{ sort }}</h6>
                 <select name="sort_criteria" id="sources" class="custom-select sources" placeholder=" ">
                     <option value="Name (A - Z)">Name (A - Z)</option>
                     <option value="Name (Z - A)">Name (Z - A)</option>
@@ -134,6 +134,27 @@
             });
             event.stopPropagation();
         });
+
+        function myfunc(){
+            $('html').one('click',function() {
+                $(".custom-select").removeClass("opened");
+                for (let w = 0; w < arr.length; w++) {
+                    arr[w].css("zIndex", "");
+                }
+            });
+            for (let y = 0; y < arr.length; y++) {
+                arr[y].css("zIndex", "-1");
+            }
+            $(".custom-select").toggleClass("opened");
+            function myfunc(){
+                if(!$(this).parents(".custom-select").hasClass("opened")){
+                    for (let z = 0; z < arr.length; z++){
+                        arr[z].css("zIndex", "");
+                    }
+                }
+            }
+            event.stopPropagation();
+        }
 
         $(".custom-option").on("click", function() {
             $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
