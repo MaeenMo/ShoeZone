@@ -9,14 +9,16 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"><!--Navbar/Slider-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"><!--Bootstrap (NavBar/Slider)-->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/><!--Animate On Scroll-->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script><!--NavBar/slider-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script><!--Animate On Scroll-->
+    <script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
 
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 {% endblock head %}
 
 {% block content %}
-
     <!--Slider-->
     <main>
     <div id="carouselExampleIndicators" class="carousel slide slider" data-bs-ride="carousel" style="margin-top: 3px;">
@@ -58,38 +60,53 @@
         </button>
     </div>
     <div data-aos="zoom-in" data-aos-offset="150" data-aos-delay="0"><h1 style="margin-top: 20px;display: flex; justify-content: center;">Men Shoes</h1></div>
+            <div data-aos="zoom" class="filter" data-aos-offset="200" data-aos-delay="0">
+                <form method="POST" action="/sort_men">
+                    {% csrf_token %}
+                    <h5 style="display:inline">Sort By: </h5><h6 style="display: inline;" id="choosen">{{ sort }}</h6>
+                    <select name="sort_criteria" id="sources" class="custom-select sources" placeholder=" ">
+                        <option value="Name (A - Z)">Name (A - Z)</option>
+                        <option value="Name (Z - A)">Name (Z - A)</option>
+                        <option value="Price (Low - High)">Price (Low - High)</option>
+                        <option value="Price (High - Low)">Price (High - Low)</option>
+                    </select>
+                    <button hidden type="submit" id="submit_form" class="sortBtn btn btn-outline-primary" style="margin-left: 25px">
+                        <span>Sort</span>
+                    </button>
+                </form>
+            </div>
             <div class="container page-wrapper" data-aos="fade-up" data-aos-delay="100">
                 {% for i in shoes %}
                     {% if i.Type == 'Men' or i.Type == 'Unisex' %}
-                <div class="page-inner">
-                    <div class="row">
-                        <div class="el-wrapper">
-                            <div class="box-up">
-                                <img class="img" src="/{{ i.img }}" alt="">
-                                <div class="img-info">
-                                    <div class="info-inner">
-                                        <span class="p-name">{{ i.name }}</span>
-                                        <span class="p-company">{{ i.brand }}</span>
+                        <div class="page-inner" style="z-index: 5" id="shoe_item{{ i.id }}">
+                            <div class="row">
+                                <div class="el-wrapper">
+                                    <div class="box-up">
+                                        <img class="img" src="/{{ i.img }}" alt="">
+                                        <div class="img-info">
+                                            <div class="info-inner">
+                                                <span class="p-name">{{ i.name }}</span>
+                                                <span class="p-company">{{ i.brand }}</span>
+                                            </div>
+                                            <div class="a-size">Available sizes : <span class="size">{{ i.size }}</span></div>
+                                        </div>
                                     </div>
-                                    <div class="a-size">Available sizes : <span class="size">{{ i.size }}</span></div>
-                                </div>
-                            </div>
 
-                            <div class="box-down">
-                                <div class="h-bg">
-                                    <div class="h-bg-inner"></div>
-                                </div>
+                                    <div class="box-down">
+                                        <div class="h-bg">
+                                            <div class="h-bg-inner"></div>
+                                        </div>
 
-                                <a class="cart" href="/item/{{ i.id }}">
-                                    <span class="price">{{ i.price }}</span>
-                                    <span class="add-to-cart">
-                                    <span class="txt">View Item</span>
-                                  </span>
-                                </a>
+                                        <a class="cart" href="/item/{{ i.id }}">
+                                            <span class="price">{{ i.price }}</span>
+                                            <span class="add-to-cart">
+                                            <span class="txt">View Item</span>
+                                          </span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -105,13 +122,99 @@
         });
     </script>
     <script>
-      if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
+        const arr = [];
+        let j = 0;
+        {% for i in shoes %}
+            arr[j] = $("#shoe_item{{ i.id }}");
+            j++;
+        {% endfor %}
+
+        $(".custom-select").each(function() {
+            var classes = $(this).attr("class"),
+            id      = $(this).attr("id"),
+            name    = $(this).attr("name");
+            var template =  '<div class="' + classes + '">';
+            template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+            template += '<div class="custom-options">';
+                $(this).find("option").each(function() {
+                template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+                });
+                template += '</div></div>';
+            $(this).wrap('<div class="custom-select-wrapper"></div>');
+            $(this).hide();
+            $(this).after(template);
+        });
+        $(".custom-option:first-of-type").hover(function() {
+            $(this).parents(".custom-options").addClass("option-hover");
+        }, function() {
+            $(this).parents(".custom-options").removeClass("option-hover");
+        });
+        $(".custom-select-trigger").on("click", function() {
+            $('html').one('click',function() {
+                $(".custom-select").removeClass("opened");
+                for (let w = 0; w < arr.length; w++) {
+                    arr[w].css("zIndex", "");
+                }
+            });
+            for (let y = 0; y < arr.length; y++) {
+                arr[y].css("zIndex", "-1");
+            }
+            $(this).parents(".custom-select").toggleClass("opened");
+            $('.custom-select-trigger').on('click',function() {
+                if(!$(this).parents(".custom-select").hasClass("opened")){
+                    for (let z = 0; z < arr.length; z++){
+                        arr[z].css("zIndex", "");
+                    }
+                }
+        });
+        event.stopPropagation();
+        });
+
+        $(".custom-option").on("click", function() {
+            $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+            $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+            $(this).addClass("selection");
+            $(this).parents(".custom-select").removeClass("opened");
+            // $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+            document.getElementById("choosen").innerHTML=$(this).text();
+            $('#submit_form').trigger('click');
+        });
+    </script>
+    <script>
+        const recordVerticalOffset = () => {
+
+            localStorage.setItem('pageVerticalPosition', window.scrollY);
         }
-    else {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
+
+        // Only save window position after scrolling stops
+        const throttleScroll = (delay) => {
+
+            let time = Date.now();
+
+            const checkScroll = setInterval(() => {
+
+                if (Date.now() > (time + delay)) {
+
+                    clearInterval(checkScroll);
+                    return recordVerticalOffset();
+                }
+            }, 300);
         }
-    }
+
+        // Scroll Event Listener
+        window.addEventListener('scroll', throttleScroll(1000));
+
+
+        // DESTINATION PAGE
+        // ================
+
+        const repositionPage = () => {
+
+            let pageVerticalPosition = localStorage.getItem('pageVerticalPosition') || 0;
+
+            window.scrollTo(0, pageVerticalPosition);
+        }
+
+        window.addEventListener('load', repositionPage);
     </script>
 {% endblock additional %}

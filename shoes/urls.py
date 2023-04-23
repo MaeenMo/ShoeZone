@@ -8,9 +8,12 @@ urlpatterns = [
     # Main Pages
     path('', views.home, name='shoes-home'),
     path('men/', views.men, name='men'),
+    path('sort_men', views.sort_men, name='sort_men'),
     path('women/', views.women, name='women'),
+    path('sort_women', views.sort_women, name='sort_women'),
     # Search Page
     path('search_shoes/', views.search_shoes, name='search_shoes'),
+    path('sort/<str:criteria>', views.sort_search, name='sorting'),
     # Login System Pages
     path('register/', views.registration, name='register'),
     path('profile/', views.profile, name='profile'),
