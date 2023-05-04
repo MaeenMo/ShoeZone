@@ -5,13 +5,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Oswald:400,600" rel="stylesheet">
 	<link rel="stylesheet" href="/ShoeZone/static/CSS/home.css"/>
     <link rel="stylesheet" href="/ShoeZone/static/CSS/itempage.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"><!--Bootstrap Icons-->
 	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"><!--Navbar/Slider-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"><!--NavBar/Slider-->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script><!--NavBar/slider-->
 {% endblock head %}
 
 {% block content %}
@@ -56,21 +56,24 @@
                                   </ul>
                               {% endif %}
                       </div>
-                     <form method="POST" action="/add_product/{{ i.id }}">
+                     <form method="POST" onsubmit="get_action(this)">
                       {% csrf_token %}
-                      <div class="size" style="max-width: 10vw; margin-top: 20px">
-                          <h5 class="label">select size:</h5>
-                          <select name="sizeselect">
-                              <option selected disabled="true">---Select Size---</option>
-                              <option>38</option>
-                              <option>39</option>
-                              <option>40</option>
-                              <option>41</option>
-                              <option>42</option>
-                              <option>43</option>
-                              <option>44</option>
-                              <option>45</option>
-                          </select>
+                      <div class="size" style="max-width: 50vw; margin-top: 20px; display: inline-flex">
+                          <h5 id="size_text{{ i.id }}" style="max-width: 100px">select size:  <h5 id="size_choosen" style="max-width: 30px; font-size: 1.10rem"></h5></h5>
+                          <span class="select-menu" id="{{ i.id }}" style="margin-top: -5px">
+                              <div class="custom-select-trigger" id="B{{ i.id }}"></div>
+                              <ul class="options" style="list-style-type: none; margin-top: 22px;margin-left: -30px;max-height: 200px" id="L{{ i.id }}">
+                                  <h6 class="text-center">Select Size</h6>
+                                  <li class="option"><span class="option-text">38</span></li>
+                                  <li class="option"><span class="option-text">39</span></li>
+                                  <li class="option"><span class="option-text">40</span></li>
+                                  <li class="option"><span class="option-text">41</span></li>
+                                  <li class="option"><span class="option-text">42</span></li>
+                                  <li class="option"><span class="option-text">43</span></li>
+                                  <li class="option"><span class="option-text">44</span></li>
+                                  <li class="option"><span class="option-text">45</span></li>
+                              </ul>
+                          </span>
                       </div>
                       <script>
                           function myfunction(){
@@ -89,12 +92,13 @@
                                       <span>add to cart</span>
                                   </button>
                           {% endif %}
-                              {% if messages %}
-                                  {% for message in messages %}
-                                      <div class="alert alert" style="text-align: left"></div>
-                                      {{ message }}
-                                  {% endfor %}
-                              {% endif %}
+                          {% if messages %}
+                              {% for message in messages %}
+                                  <div class="alert alert" style="text-align: left">{{ message }}</div>
+                              {% endfor %}
+                          {% else %}
+                              <div class="alert alert" style="text-align: left"><span id="msg_out"></span></div>
+                          {% endif %}
                       </div>
                   </form>
               </div>
@@ -105,6 +109,64 @@
 {% endblock content %}
 
 {% block additional %}
+    <script type="text/javascript">
+        const
+            list = [],
+            array = [],
+            array2 = [],
+            array3 = [],
+            array4 = [];
+        let j = 0;
+        {% for i in shoes %}
+            array[j] = document.getElementById("{{ i.id }}");
+            array4[j] = $("#size_text{{ i.id }}");
+            array3[j] = array[j].querySelectorAll(".option");
+            array2[j] = $("#B{{ i.id }}");
+            list[j] = $("#L{{ i.id }}");
+            list[j].toggleClass("hide")
+            j ++;
+        {% endfor %}
+        for (let x = 0; x < j; x++) {
+            array2[x].on("click", function(){
+                $('html').one('click',function() {
+                    array[x].classList.remove("active");
+                });
+                array[x].classList.toggle("active")
+                event.stopPropagation();
+            });
+            array4[x].on("click", function(){
+                $('html').one('click',function() {
+                    array[x].classList.remove("active");
+                });
+                array[x].classList.toggle("active")
+                event.stopPropagation();
+            });
+            $('#size_choosen').on("click", function(){
+                $('html').one('click',function() {
+                    array[x].classList.remove("active");
+                });
+                array[x].classList.toggle("active")
+                event.stopPropagation();
+            });
+            {% for i in shoes %}
+                var url = '/add_product/{{ i.id }}/?sizeselect=';
+                const url2 = '/item/{{ i.id }}';
+            {% endfor %}
+            var selected = '';
+            array3[x].forEach((option) => {
+                option.addEventListener("click", () => {
+                    array[x].classList.remove("active");
+                    option.classList.add("selected");
+                    selected = option.textContent;
+                    document.getElementById("size_choosen").innerHTML = option.textContent;
+                });
+            });
+        }
+        function get_action(form) {
+            url += selected;
+            form.action = url;
+        }
+    </script>
     <script>
       if (history.scrollRestoration) {
         history.scrollRestoration = 'manual';
@@ -115,4 +177,84 @@
         }
     }
     </script>
+    <script>
+    const arr = [];
+    let j = 0;
+    {% for i in shoes %}
+        arr[j] = $("#shoe_item{{ i.id }}");
+        j++;
+    {% endfor %}
+
+    $(".custom-select").each(function() {
+        var classes = $(this).attr("class"),
+        id      = $(this).attr("id"),
+        name    = $(this).attr("name");
+        var template =  '<div class="' + classes + '">';
+        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
+        template += '<div class="custom-options">';
+            $(this).find("option").each(function() {
+            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
+            });
+            template += '</div></div>';
+        $(this).wrap('<div class="custom-select-wrapper"></div>');
+        $(this).hide();
+        $(this).after(template);
+    });
+    $(".custom-option:first-of-type").hover(function() {
+        $(this).parents(".custom-options").addClass("option-hover");
+    }, function() {
+        $(this).parents(".custom-options").removeClass("option-hover");
+    });
+    $(".custom-select-trigger").on("click", function() {
+        $('html').one('click',function() {
+            $(".custom-select").removeClass("opened");
+            for (let w = 0; w < arr.length; w++) {
+                arr[w].css("zIndex", "");
+            }
+        });
+        for (let y = 0; y < arr.length; y++) {
+            arr[y].css("zIndex", "-1");
+        }
+        $(this).parents(".custom-select").toggleClass("opened");
+        $('.custom-select-trigger').on('click',function() {
+            if(!$(this).parents(".custom-select").hasClass("opened")){
+                for (let z = 0; z < arr.length; z++){
+                    arr[z].css("zIndex", "");
+                }
+            }
+    });
+    event.stopPropagation();
+    });
+
+    function myfunc(){
+        $('html').one('click',function() {
+            $(".custom-select").removeClass("opened");
+            for (let w = 0; w < arr.length; w++) {
+                arr[w].css("zIndex", "");
+            }
+        });
+        for (let y = 0; y < arr.length; y++) {
+            arr[y].css("zIndex", "-1");
+        }
+        $(".custom-select").toggleClass("opened");
+        function myfunc(){
+            if(!$(this).parents(".custom-select").hasClass("opened")){
+                for (let z = 0; z < arr.length; z++){
+                    arr[z].css("zIndex", "");
+                }
+            }
+        }
+        event.stopPropagation();
+    }
+
+    $(".custom-option").on("click", function() {
+        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
+        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
+        $(this).addClass("selection");
+        $(this).parents(".custom-select").removeClass("opened");
+        // $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
+        document.getElementById("choosen").innerHTML=$(this).text();
+        $('#submit_form').trigger('click');
+    });
+</script>
 {% endblock additional %}

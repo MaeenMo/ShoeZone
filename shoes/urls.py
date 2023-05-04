@@ -8,12 +8,10 @@ urlpatterns = [
     # Main Pages
     path('', views.home, name='shoes-home'),
     path('men/', views.men, name='men'),
-    path('sort_men', views.sort_men, name='sort_men'),
     path('women/', views.women, name='women'),
-    path('sort_women', views.sort_women, name='sort_women'),
     # Search Page
     path('search_shoes/', views.search_shoes, name='search_shoes'),
-    path('sort/<str:criteria>', views.sort_search, name='sorting'),
+    path('search_auto/', views.search_autocomp, name='search_auto'),
     # Login System Pages
     path('register/', views.registration, name='register'),
     path('profile/', views.profile, name='profile'),
@@ -21,7 +19,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='shoes/sign_out.html'), name='logout'),
     # Cart Pages & it's Functions
     path('cart/', views.cart, name='cart'),
-    path('add_product/<int:cart_item_id>', views.add_To_Cart, name='add_product'),
+    path('add_product/<int:cart_item_id>/', views.add_To_Cart, name='add_product'),
     path('add_quantity/<int:product_id>/<int:add_size_id>', views.additional_size, name='add_quantity'),
     path('remove_product/<int:delete_item_id>', views.remove_From_Cart, name='remove_product'),
     path('remove_quantity/<int:remove_quantity_id>', views.remove_quantity, name='remove_quantity'),

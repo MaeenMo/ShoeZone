@@ -9,9 +9,7 @@
 
     <link href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 {% endblock head %}
 
 {% block content %}
@@ -48,7 +46,7 @@
                                         <!-- Image -->
                                         <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
                                             <img src="/{{ i.product.img }}" class="w-100" alt="" />
-                                            <a href="#!"> <!--image button-->
+                                            <a href="/item/{{ i.product.id }}"> <!--image button-->
                                                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                                             </a>
                                         </div>
@@ -61,91 +59,52 @@
                                         <p style="margin-bottom: 0"><strong>Size:</strong> {{ i.selected_size }}</p>
                                         <!--Delete Button-->
                                         <div class="col-lg-1 col-md-6 mb-3 mt-3 lg-0">
-                                            <a href="/remove_product/{{ i.product.id }}">
-                                                <button type="button" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </a>
+                                            <button type="button" id="remove_btn{{ i.product.id }}" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                         <!-- Data -->
                                     </div>
                                     <!-- Quantity & Price -->
-                                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                            <div class="d-flex mb-4">
-                                                <a href="/remove_quantity/{{ i.product.id }}">
-                                                    <button type="button" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                </a>
-                                                <div class="form-outline" >
-                                                    <input id="form1" min="1" name="quantity" type="text" value="{{ i.product_qty }}" disabled class="form-control active">
-                                                    <label class="form-label" for="form1" style="margin-left: 0px;">Quantity</label>
-                                                    <div class="form-notch">
-                                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                                        <div class="form-notch-middle" style="width: 54px;"></div>
-                                                        <div class="form-notch-trailing"></div>
-                                                    </div>
-                                                </div>
-                                                <!-- Quantity -->
-                                                <div class="select-menu" id="{{ i.product.id }}">
-                                                    <div class="select-btn" id="B{{ i.product.id }}">
-                                                        <button type="button" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Add item"><i class="fas fa-plus"></i></button>
-                                                    </div>
-                                                    <ul class="options" style="list-style-type: none" id="L{{ i.product.id }}">
-                                                        <h6 class="text-center">Select Size</h6>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/38">
-                                                            <span class="option-text">38</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/39">
-                                                            <span class="option-text">39</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/40">
-                                                            <span class="option-text">40</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/41">
-                                                            <span class="option-text">41</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/42">
-                                                            <span class="option-text">42</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/43">
-                                                            <span class="option-text">43</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/44">
-                                                            <span class="option-text ">44</span>
-                                                        </a></li>
-                                                        <li><a class="option" href="/add_quantity/{{ i.product.id }}/45">
-                                                            <span class="option-text">45</span>
-                                                        </a></li>
-                                                    </ul>
-                                                </div>
-                                                <!-- Price -->
+                                    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                        <div class="d-flex mb-4">
+                                            <div class="select-btn">
+                                                <button type="button" id="remove_quantity{{ i.product.id }}" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item"><i class="fas fa-minus"></i></button>
                                             </div>
-                                            <p style="text-align: center">
-                                                <strong>{{ i.product.price }}</strong>
-                                            </p>
+                                            <div class="form-outline" >
+                                                <input id="form1" min="1" name="quantity" type="text" value="{{ i.product_qty }}" disabled class="form-control active">
+                                                <label class="form-label" for="form1" style="margin-left: 0px;">Quantity</label>
+                                                <div class="form-notch">
+                                                    <div class="form-notch-leading" style="width: 9px;"></div>
+                                                    <div class="form-notch-middle" style="width: 54px;"></div>
+                                                    <div class="form-notch-trailing"></div>
+                                                </div>
+                                            </div>
+                                            <div class="select-menu" id="{{ i.product.id }}">
+                                                <div class="select-btn" id="B{{ i.product.id }}">
+                                                    <button type="button" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Add item"><i class="fas fa-plus"></i></button>
+                                                </div>
+                                                <ul class="options" style="list-style-type: none;max-width: 70px;max-height: 140px" id="L{{ i.product.id }}">
+                                                    <h6 class="text-center">Select Size</h6>
+                                                    <li class="option"><span class="option-text">38</span></li>
+                                                    <li class="option"><span class="option-text">39</span></li>
+                                                    <li class="option"><span class="option-text">40</span></li>
+                                                    <li class="option"><span class="option-text">41</span></li>
+                                                    <li class="option"><span class="option-text">42</span></li>
+                                                    <li class="option"><span class="option-text">43</span></li>
+                                                    <li class="option"><span class="option-text">44</span></li>
+                                                    <li class="option"><span class="option-text">45</span></li>
+                                                </ul>
+                                            </div>
                                         </div>
+                                        <p style="text-align: center">
+                                            <strong>{{ i.product.price }}</strong>
+                                        </p>
+                                    </div>
                                 </div>
                                 <!-- Single item -->
                                 <hr class="my-4" />
                             {% endfor %}
-                            <script type="text/javascript">
-                                const
-                                    list = [],
-                                    array = [],
-                                    array2 = [];
-                                let j = 0;
-                                {% for i in cart_items %}
-                                    array[j] = document.getElementById("{{ i.product.id }}");
-                                    array2[j] = document.getElementById("B{{ i.product.id }}");
-                                    list[j] = document.getElementById("L{{ i.product.id }}");
-                                    list[j].classList.toggle("hide")
-                                    j ++;
-                                {% endfor %}
-                                for (let x = 0; x < j; x++) {
-                                    array2[x].addEventListener("click", () => array[x].classList.toggle("active"), () => list[x].classList.toggle(""));
-                                }
-                            </script>
                         </div>
                     </div>
                     <div class="card mb-4 mb-lg-0">
@@ -224,14 +183,57 @@
 {% endblock content %}
 
 {% block additional %}
-    <script>
-      if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
+
+    <script type="text/javascript">
+        const
+            list = [],
+            array = [],
+            array3 = [],
+            options = [],
+            rem_qunatity = [],
+            array2 = [];
+        let j = 0;
+        {% for i in cart_items %}
+            array[j] = document.getElementById("{{ i.product.id }}");
+            options[j] = array[j].querySelectorAll(".option");
+            array2[j] = $("#B{{ i.product.id }}");
+            rem_qunatity[j] = $("#remove_quantity{{ i.product.id }}");
+            array3[j] = $('#remove_btn{{ i.product.id }}');
+            list[j] = document.getElementById("L{{ i.product.id }}");
+            list[j].classList.toggle("hide");
+            j ++;
+        {% endfor %}
+        for (let x = 0; x < j; x++) {
+            array2[x].on("click", function(){
+                $('html').one('click',function() {
+                    array[x].removeClass("active");
+                });
+                array[x].classList.toggle("active")
+                event.stopPropagation();
+            });
+            {% for i in cart_items %}
+                rem_qunatity[x].on("click", function(){
+                    window.location.href = '/remove_quantity/{{ i.product.id }}';
+                });
+                var selected = '';
+                options[x].forEach((option) => {
+                    option.addEventListener("click", () => {
+                        array[x].classList.remove("active");
+                        option.classList.add("selected");
+                        selected = option.textContent;
+                        window.location.href = '/add_quantity/{{ i.product.id }}/' + selected;
+                    });
+                });
+            {% endfor %}
         }
-    else {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    }
+        {% for i in cart_items %}
+        let h=0;
+            array3[h].on("click", function (){
+                console.log("Deleted");
+                window.location.href = '/remove_product/{{ i.product.id }}';
+            });
+            h++;
+        {% endfor %}
     </script>
+
 {% endblock additional %}
