@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="/ShoeZone/static/CSS/home.css"/>
+    <link rel="stylesheet" href="/static/CSS/home.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"><!--Bootstrap Icons-->
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"><!--Navbar/Slider-->
@@ -17,22 +17,22 @@
         <br>
             <h1 align="center">You Searched For {{ searched }}</h1>
         <br/>
-        <div data-aos="zoom" class="filter" data-aos-offset="200" data-aos-delay="0">
-            <form method="POST" action="{% url 'search_shoes' %}">
-                {% csrf_token %}
-                <h5 onclick="myfunc();" style="display:inline;cursor: pointer;">Sort By: </h5><h6 onclick="myfunc();" style="display: inline;cursor: pointer;" id="choosen">{{ sort }}</h6>
-                <select name="sort_criteria" id="sources" class="custom-select sources" placeholder=" ">
-                    <option value="Name (A - Z)">Name (A - Z)</option>
-                    <option value="Name (Z - A)">Name (Z - A)</option>
-                    <option value="Price (Low - High)">Price (Low - High)</option>
-                    <option value="Price (High - Low)">Price (High - Low)</option>
-                </select>
-                <button hidden type="submit" id="submit_form" class="sortBtn btn btn-outline-primary" style="margin-left: 25px">
-                    <span>Sort</span>
-                </button>
-            </form>
-        </div>
         {% if shoes_brands %}
+            <div data-aos="zoom" class="filter" data-aos-offset="200" data-aos-delay="0">
+                <form method="POST" action="{% url 'search_shoes' %}">
+                    {% csrf_token %}
+                    <h5 onclick="myfunc();" style="display:inline;cursor: pointer;">Sort By: </h5><h6 onclick="myfunc();" style="display: inline;cursor: pointer;" id="choosen">{{ sort }}</h6>
+                    <select name="sort_criteria" id="sources" class="custom-select sources" placeholder=" ">
+                        <option value="Name (A - Z)">Name (A - Z)</option>
+                        <option value="Name (Z - A)">Name (Z - A)</option>
+                        <option value="Price (Low - High)">Price (Low - High)</option>
+                        <option value="Price (High - Low)">Price (High - Low)</option>
+                    </select>
+                    <button hidden type="submit" id="submit_form" class="sortBtn btn btn-outline-primary" style="margin-left: 25px">
+                        <span>Sort</span>
+                    </button>
+                </form>
+            </div>
             <div class="container page-wrapper" data-aos="fade-up" data-aos-delay="100">
             {% for i in shoes_brands %}
             <div class="page-inner" style="z-index: 5" id="shoe_item{{ i.id }}">
@@ -67,7 +67,7 @@
             {% endfor %}
             </div>
         {% else %}
-            <h1 align="center"> Nothing Found :(</h1>
+            <h1 align="center"> Nothing Found</h1>
         {% endif %}
     {% else %}
         <br>

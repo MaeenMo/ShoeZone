@@ -3,11 +3,12 @@
 {% block head %}
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Oswald:400,600" rel="stylesheet">
-	<link rel="stylesheet" href="/ShoeZone/static/CSS/home.css"/>
-    <link rel="stylesheet" href="/ShoeZone/static/CSS/itempage.css"/>
+	<link rel="stylesheet" href="/static/CSS/home.css"/>
+    <link rel="stylesheet" href="/static/CSS/itempage.css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"><!--Bootstrap Icons-->
 	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"><!--Navbar/Slider-->
@@ -35,7 +36,7 @@
                 </header>
                   <div class="color" style="margin-top: 60px">
                               {% if more_items %}
-                                  <h5 class="label">select color:</h5>
+                                  <h5 class="size">select color:</h5>
                                   <ul style="margin: 0px">
                                   {% for j in more_items %}
                                       {% if j.color_hexa != "#000000" %}
@@ -58,29 +59,42 @@
                       </div>
                      <form method="POST" onsubmit="get_action(this)">
                       {% csrf_token %}
-                      <div class="size" style="max-width: 50vw; margin-top: 20px; display: inline-flex">
-                          <h5 id="size_text{{ i.id }}" style="max-width: 100px">select size:  <h5 id="size_choosen" style="max-width: 30px; font-size: 1.10rem"></h5></h5>
-                          <span class="select-menu" id="{{ i.id }}" style="margin-top: -5px">
-                              <div class="custom-select-trigger" id="B{{ i.id }}"></div>
-                              <ul class="options" style="list-style-type: none; margin-top: 22px;margin-left: -30px;max-height: 200px" id="L{{ i.id }}">
-                                  <h6 class="text-center">Select Size</h6>
-                                  <li class="option"><span class="option-text">38</span></li>
-                                  <li class="option"><span class="option-text">39</span></li>
-                                  <li class="option"><span class="option-text">40</span></li>
-                                  <li class="option"><span class="option-text">41</span></li>
-                                  <li class="option"><span class="option-text">42</span></li>
-                                  <li class="option"><span class="option-text">43</span></li>
-                                  <li class="option"><span class="option-text">44</span></li>
-                                  <li class="option"><span class="option-text">45</span></li>
-                              </ul>
-                          </span>
-                      </div>
+                      <div class="row">
+                        <div class="size col-2">
+                            <h5 class="size" id="size_text{{ i.id }}">select size:</h5>
+                        </div>
+                        <div class="selectSize" id="sizeselector">
+                            <input id="size38" type="radio" value="38" name="sizeselect" class="invisible">
+                            <label for="size38" class="selectedSize">38</label>
+
+                            <input id="size39" type="radio" value="39" name="sizeselect" class="invisible">
+                            <label for="size39" class="selectedSize">39</label>
+
+                            <input id="size40" type="radio" value="40" name="sizeselect" class="invisible">
+                            <label for="size40" class="selectedSize">40</label>
+
+                            <input id="size41" type="radio" value="41" name="sizeselect" class="invisible">
+                            <label for="size41" class="selectedSize">41</label>
+
+                            <input id="size42" type="radio" value="42" name="sizeselect" class="invisible">
+                            <label for="size42" class="selectedSize">42</label>
+
+                            <input id="size43" type="radio" value="43" name="sizeselect" class="invisible">
+                            <label for="size43" class="selectedSize">43</label>
+
+                            <input id="size44" type="radio" value="44" name="sizeselect" class="invisible">
+                            <label for="size44" class="selectedSize">44</label>
+
+                            <input id="size45" type="radio" value="45" name="sizeselect" class="invisible">
+                            <label for="size45" class="selectedSize">45</label>
+                        </div>
+                    </div>
                       <script>
                           function myfunction(){
-                              alert("Please Sign in :(");
+                              alert("Please Sign in");
                           }
                       </script>
-                      <div class="footer1" style="margin-top: 50px" >
+                      <div class="footer1" >
                           {% if user.is_authenticated %}
                                   <button type="submit">
                                       <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
@@ -94,10 +108,10 @@
                           {% endif %}
                           {% if messages %}
                               {% for message in messages %}
-                                  <div class="alert alert" style="text-align: left">{{ message }}</div>
+                                  <div class="alert alert" style="text-align: left; margin: 0; padding: 15px">{{ message }}</div>
                               {% endfor %}
                           {% else %}
-                              <div class="alert alert" style="text-align: left"><span id="msg_out"></span></div>
+                              <div class="alert alert" style="text-align: left; margin: 0; padding: 15px"><span id="msg_out"></span></div>
                           {% endif %}
                       </div>
                   </form>
@@ -109,152 +123,30 @@
 {% endblock content %}
 
 {% block additional %}
-    <script type="text/javascript">
-        const
-            list = [],
-            array = [],
-            array2 = [],
-            array3 = [],
-            array4 = [];
-        let j = 0;
+    <script>
+        const size_selector = document.getElementById("sizeselector"),
+              selected = size_selector.querySelectorAll(".selectedSize");
+        var op_selected = '';
+        selected.forEach((option) => {
+            option.addEventListener("click", (event) => {
+                op_selected = option.textContent;
+                event.stopPropagation();
+            });
+        });
         {% for i in shoes %}
-            array[j] = document.getElementById("{{ i.id }}");
-            array4[j] = $("#size_text{{ i.id }}");
-            array3[j] = array[j].querySelectorAll(".option");
-            array2[j] = $("#B{{ i.id }}");
-            list[j] = $("#L{{ i.id }}");
-            list[j].toggleClass("hide")
-            j ++;
+            var url = '/add_product/{{ i.id }}/?sizeselect=';
         {% endfor %}
-        for (let x = 0; x < j; x++) {
-            array2[x].on("click", function(){
-                $('html').one('click',function() {
-                    array[x].classList.remove("active");
-                });
-                array[x].classList.toggle("active")
-                event.stopPropagation();
-            });
-            array4[x].on("click", function(){
-                $('html').one('click',function() {
-                    array[x].classList.remove("active");
-                });
-                array[x].classList.toggle("active")
-                event.stopPropagation();
-            });
-            $('#size_choosen').on("click", function(){
-                $('html').one('click',function() {
-                    array[x].classList.remove("active");
-                });
-                array[x].classList.toggle("active")
-                event.stopPropagation();
-            });
-            {% for i in shoes %}
-                var url = '/add_product/{{ i.id }}/?sizeselect=';
-                const url2 = '/item/{{ i.id }}';
-            {% endfor %}
-            var selected = '';
-            array3[x].forEach((option) => {
-                option.addEventListener("click", () => {
-                    array[x].classList.remove("active");
-                    option.classList.add("selected");
-                    selected = option.textContent;
-                    document.getElementById("size_choosen").innerHTML = option.textContent;
-                });
-            });
-        }
         function get_action(form) {
-            url += selected;
+            url += op_selected;
             form.action = url;
         }
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        else {
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+        }
     </script>
-    <script>
-      if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-        }
-    else {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    }
-    </script>
-    <script>
-    const arr = [];
-    let j = 0;
-    {% for i in shoes %}
-        arr[j] = $("#shoe_item{{ i.id }}");
-        j++;
-    {% endfor %}
-
-    $(".custom-select").each(function() {
-        var classes = $(this).attr("class"),
-        id      = $(this).attr("id"),
-        name    = $(this).attr("name");
-        var template =  '<div class="' + classes + '">';
-        template += '<span class="custom-select-trigger">' + $(this).attr("placeholder") + '</span>';
-        template += '<div class="custom-options">';
-            $(this).find("option").each(function() {
-            template += '<span class="custom-option ' + $(this).attr("class") + '" data-value="' + $(this).attr("value") + '">' + $(this).html() + '</span>';
-            });
-            template += '</div></div>';
-        $(this).wrap('<div class="custom-select-wrapper"></div>');
-        $(this).hide();
-        $(this).after(template);
-    });
-    $(".custom-option:first-of-type").hover(function() {
-        $(this).parents(".custom-options").addClass("option-hover");
-    }, function() {
-        $(this).parents(".custom-options").removeClass("option-hover");
-    });
-    $(".custom-select-trigger").on("click", function() {
-        $('html').one('click',function() {
-            $(".custom-select").removeClass("opened");
-            for (let w = 0; w < arr.length; w++) {
-                arr[w].css("zIndex", "");
-            }
-        });
-        for (let y = 0; y < arr.length; y++) {
-            arr[y].css("zIndex", "-1");
-        }
-        $(this).parents(".custom-select").toggleClass("opened");
-        $('.custom-select-trigger').on('click',function() {
-            if(!$(this).parents(".custom-select").hasClass("opened")){
-                for (let z = 0; z < arr.length; z++){
-                    arr[z].css("zIndex", "");
-                }
-            }
-    });
-    event.stopPropagation();
-    });
-
-    function myfunc(){
-        $('html').one('click',function() {
-            $(".custom-select").removeClass("opened");
-            for (let w = 0; w < arr.length; w++) {
-                arr[w].css("zIndex", "");
-            }
-        });
-        for (let y = 0; y < arr.length; y++) {
-            arr[y].css("zIndex", "-1");
-        }
-        $(".custom-select").toggleClass("opened");
-        function myfunc(){
-            if(!$(this).parents(".custom-select").hasClass("opened")){
-                for (let z = 0; z < arr.length; z++){
-                    arr[z].css("zIndex", "");
-                }
-            }
-        }
-        event.stopPropagation();
-    }
-
-    $(".custom-option").on("click", function() {
-        $(this).parents(".custom-select-wrapper").find("select").val($(this).data("value"));
-        $(this).parents(".custom-options").find(".custom-option").removeClass("selection");
-        $(this).addClass("selection");
-        $(this).parents(".custom-select").removeClass("opened");
-        // $(this).parents(".custom-select").find(".custom-select-trigger").text($(this).text());
-        document.getElementById("choosen").innerHTML=$(this).text();
-        $('#submit_form').trigger('click');
-    });
-</script>
 {% endblock additional %}

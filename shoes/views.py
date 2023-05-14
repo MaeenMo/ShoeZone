@@ -16,6 +16,12 @@ def get_referer(request):
 ##########################################
 
 def home(request):
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     x = [None for i in range(4)]
     count = int(Shoe.objects.count())
     arr = [1 for i in range(count)]
@@ -48,6 +54,9 @@ def search_shoes(request):
         variable = searched
     elif request.POST.get('sort_criteria'):
         searched = variable
+    elif request.GET.get('criteria'):
+        searched = request.GET.get('criteria')
+        variable = searched
     else:
         searched = ""
         variable = ""
@@ -103,6 +112,12 @@ def search_autocomp(request):
 def item_page(request, item_id):
     if not get_referer(request):
         raise Http404
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     context = {
         'shoes': Shoe.objects.filter(id=item_id),
         'page_name': 'Item Page',
@@ -120,6 +135,12 @@ def item_page(request, item_id):
 def registration(request):
     if not get_referer(request):
         raise Http404
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     msg = []
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -130,13 +151,13 @@ def registration(request):
             return redirect('login')
         else:
             if not form.cleaned_data.get('password1') == form.cleaned_data.get('password2'):
-                msg.append("Password Doesn't Match :(")
+                msg.append("Password Doesn't Match")
             if User.objects.filter(username__contains=str(request.POST.get('username'))):
-                msg.append("Username Already Exists :(")
+                msg.append("Username Already Exists")
             if str(form.cleaned_data.get('username')).isnumeric():
-                msg.append("Username Must Contain Letters :(")
+                msg.append("Username Must Contain Letters")
             if User.objects.filter(email__contains=str(request.POST.get('email'))):
-                msg.append("Email Already Exists :(")
+                msg.append("Email Already Exists")
         return render(request, 'shoes/registration.html', {'form': form, 'page_name': 'Sign Up', 'errors': msg})
     else:
         form = RegistrationForm()
@@ -149,6 +170,12 @@ def men(request):
         'page_name': 'Men',
         'nav': True
     }
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     if request.POST.get('sort_criteria') == 'Name (A - Z)':
         context['shoes'] = Shoe.objects.order_by('name')
         context['sort'] = 'Name (A - Z)'
@@ -171,6 +198,12 @@ def women(request):
         'page_name': 'Women',
         'nav': True
     }
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     if request.POST.get('sort_criteria') == 'Name (A - Z)':
         context['shoes'] = Shoe.objects.order_by('name')
         context['sort'] = 'Name (A - Z)'
@@ -190,6 +223,12 @@ def women(request):
 def cart(request):
     if not get_referer(request):
         raise Http404
+    for i in Shoe.objects.all():
+        temp = ''
+        temp = str(i.img)
+        if temp[0:9] == "ShoeZone/":
+            i.img = str(temp[9:])
+            i.save()
     total_price = 0
     context = {
         'shoes': Shoe.objects.all(),
@@ -260,7 +299,7 @@ def checkout(request):
     else:
         context = {
             'page_name': "Checkout",
-            'Error': "Stop Refreshing :("
+            'Error': "Stop Refreshing"
         }
     return render(request, 'shoes/checkout.html', context)
 
@@ -335,13 +374,13 @@ def profile(request):
             if request.user.username == request.POST.get('username'):
                 pass
             else:
-                messages.error(request, 'Username Already Exists :(')
+                messages.error(request, 'Username Already Exists')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         if request.POST.get('first_name').isnumeric() or request.POST.get('last_name').isnumeric():
-            messages.error(request, 'First/Last Name Can’t Be Entirely Numeric :(')
+            messages.error(request, 'First/Last Name Can’t Be Entirely Numeric')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         if not request.POST.get('first_name') or not request.POST.get('last_name'):
-            messages.error(request, 'Do Not Leave First/Last Name Blank :(')
+            messages.error(request, 'Do Not Leave First/Last Name Blank')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         else:
             if form.is_valid():
@@ -356,3 +395,11 @@ def profile(request):
         'msg': msg
     }
     return render(request, 'shoes/profile.html', context)
+
+
+def handle404(request, exception):
+    context = {
+        'class_css': 'p-0 m-0 border-0 bd-example',
+        'page_name': 'Shoezone 404'
+    }
+    return render(request, 'shoes/404.html', context)

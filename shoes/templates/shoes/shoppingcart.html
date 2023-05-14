@@ -2,7 +2,7 @@
 {% load static %}
 {% block head %}
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/ShoeZone/static/CSS/shoppingcart.css"/>
+    <link rel="stylesheet" href="/static/CSS/shoppingcart.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
 
@@ -30,7 +30,7 @@
                             <!-- Single item -->
                             {% if not cart_items %}
                                 <h3 style="text-align: center">
-                                    Nothing To Display :(
+                                    Nothing To Display
                                 </h3>
                                 <div style="justify-content: center; display: flex; margin-top: 15px">
                                     <a href="{% url 'shoes-home' %}">
@@ -184,11 +184,12 @@
 
 {% block additional %}
 
-    <script type="text/javascript">
+    <script>
         const
             list = [],
             array = [],
             array3 = [],
+            ID_List = [],
             options = [],
             rem_qunatity = [],
             array2 = [];
@@ -196,6 +197,7 @@
         {% for i in cart_items %}
             array[j] = document.getElementById("{{ i.product.id }}");
             options[j] = array[j].querySelectorAll(".option");
+            ID_List[j] = "{{ i.product.id }}";
             array2[j] = $("#B{{ i.product.id }}");
             rem_qunatity[j] = $("#remove_quantity{{ i.product.id }}");
             array3[j] = $('#remove_btn{{ i.product.id }}');
@@ -204,33 +206,33 @@
             j ++;
         {% endfor %}
         for (let x = 0; x < j; x++) {
-            array2[x].on("click", function(){
+            array2[x].on("click", function(event){
                 $('html').one('click',function() {
-                    array[x].removeClass("active");
+                    array[x].classList.remove("active");
                 });
-                array[x].classList.toggle("active")
+                array[x].classList.toggle("active");
                 event.stopPropagation();
             });
-            {% for i in cart_items %}
-                rem_qunatity[x].on("click", function(){
-                    window.location.href = '/remove_quantity/{{ i.product.id }}';
+                rem_qunatity[x].on("click", function(e){
+                    window.location.href = '/remove_quantity/'+ID_List[x];
+                    e.stopPropagation();
                 });
-                var selected = '';
+                let selected = '';
                 options[x].forEach((option) => {
-                    option.addEventListener("click", () => {
+                    option.addEventListener("click", (event) => {
                         array[x].classList.remove("active");
                         option.classList.add("selected");
                         selected = option.textContent;
-                        window.location.href = '/add_quantity/{{ i.product.id }}/' + selected;
+                        window.location.href = '/add_quantity/' + ID_List[x] + '/' + selected;
+                        event.stopPropagation();
                     });
                 });
-            {% endfor %}
         }
-        {% for i in cart_items %}
         let h=0;
-            array3[h].on("click", function (){
-                console.log("Deleted");
+        {% for i in cart_items %}
+            array3[h].on("click", function (event){
                 window.location.href = '/remove_product/{{ i.product.id }}';
+                event.stopPropagation();
             });
             h++;
         {% endfor %}
