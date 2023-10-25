@@ -2202,24 +2202,24 @@
             toggle() {
                 return this._isShown() ? this.hide() : this.show()
             }
-            // show() {
-            //     if (r(this._element) || this._isShown())
-            //         return;
-            //     const t = {
-            //         relatedTarget: this._element
-            //     };
-            //     if (!I.trigger(this._element, "show.bs.dropdown", t).defaultPrevented) {
-            //         if (this._createPopper(),
-            //         "ontouchstart"in document.documentElement && !this._parent.closest(".navbar-nav"))
-            //             for (const t of [].concat(...document.body.children))
-            //                 I.on(t, "mouseover", l);
-            //         this._element.focus(),
-            //             this._element.setAttribute("aria-expanded", !0),
-            //             this._menu.classList.add(Ge),
-            //             this._element.classList.add(Ge),
-            //             I.trigger(this._element, "shown.bs.dropdown", t)
-            //     }
-            // }
+            show() {
+                if (r(this._element) || this._isShown())
+                    return;
+                const t = {
+                    relatedTarget: this._element
+                };
+                if (!I.trigger(this._element, "show.bs.dropdown", t).defaultPrevented) {
+                    if (this._createPopper(),
+                    "ontouchstart"in document.documentElement && !this._parent.closest(".navbar-nav"))
+                        for (const t of [].concat(...document.body.children))
+                            I.on(t, "mouseover", l);
+                    this._element.focus(),
+                        this._element.setAttribute("aria-expanded", !0),
+                        this._menu.classList.add(Ge),
+                        this._element.classList.add(Ge),
+                        I.trigger(this._element, "shown.bs.dropdown", t)
+                }
+            }
             hide() {
                 if (r(this._element) || !this._isShown())
                     return;
@@ -2236,19 +2236,19 @@
                 this._inNavbar = this._detectNavbar(),
                 this._popper && this._popper.update()
             }
-            // _completeHide(t) {
-            //     if (!I.trigger(this._element, "hide.bs.dropdown", t).defaultPrevented) {
-            //         if ("ontouchstart"in document.documentElement)
-            //             for (const t of [].concat(...document.body.children))
-            //                 I.off(t, "mouseover", l);
-            //         this._popper && this._popper.destroy(),
-            //             this._menu.classList.remove(Ge),
-            //             this._element.classList.remove(Ge),
-            //             this._element.setAttribute("aria-expanded", "false"),
-            //             H.removeDataAttribute(this._menu, "popper"),
-            //             I.trigger(this._element, "hidden.bs.dropdown", t)
-            //     }
-            // }
+            _completeHide(t) {
+                if (!I.trigger(this._element, "hide.bs.dropdown", t).defaultPrevented) {
+                    if ("ontouchstart"in document.documentElement)
+                        for (const t of [].concat(...document.body.children))
+                            I.off(t, "mouseover", l);
+                    this._popper && this._popper.destroy(),
+                        this._menu.classList.remove(Ge),
+                        this._element.classList.remove(Ge),
+                        this._element.setAttribute("aria-expanded", "false"),
+                        H.removeDataAttribute(this._menu, "popper"),
+                        I.trigger(this._element, "hidden.bs.dropdown", t)
+                }
+            }
             _getConfig(t) {
                 if ("object" == typeof (t = super._getConfig(t)).reference && !n(t.reference) && "function" != typeof t.reference.getBoundingClientRect)
                     throw new TypeError(`${Ke.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);

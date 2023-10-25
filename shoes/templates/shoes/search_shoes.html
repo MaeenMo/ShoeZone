@@ -4,9 +4,7 @@
 {% block head %}
     <link rel="stylesheet" href="/static/CSS/home.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--Google Icons-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"><!--Bootstrap Icons-->
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"><!--Navbar/Slider-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"><!--NavBar/Slider-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script><!--Animate On Scroll-->
     <script src="https://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
 {% endblock head %}
@@ -163,42 +161,5 @@
             document.getElementById("choosen").innerHTML=$(this).text();
             $('#submit_form').trigger('click');
         });
-    </script>
-    <script>
-        const recordVerticalOffset = () => {
-
-            localStorage.setItem('pageVerticalPosition', window.scrollY);
-        }
-
-        // Only save window position after scrolling stops
-        const throttleScroll = (delay) => {
-
-            let time = Date.now();
-
-            const checkScroll = setInterval(() => {
-
-                if (Date.now() > (time + delay)) {
-
-                    clearInterval(checkScroll);
-                    return recordVerticalOffset();
-                }
-            }, 300);
-        }
-
-        // Scroll Event Listener
-        window.addEventListener('scroll', throttleScroll(1000));
-
-
-        // DESTINATION PAGE
-        // ================
-
-        const repositionPage = () => {
-
-            let pageVerticalPosition = localStorage.getItem('pageVerticalPosition') || 0;
-
-            window.scrollTo(0, pageVerticalPosition);
-        }
-
-        window.addEventListener('load', repositionPage);
     </script>
 {% endblock additional %}

@@ -56,7 +56,7 @@
                                         <!-- Data -->
                                         <p><strong>{{ i.product.name }}</strong></p>
                                         <p><strong>Color:</strong> {{ i.product.color }}</p>
-                                        <p style="margin-bottom: 0"><strong>Size:</strong> {{ i.selected_size }}</p>
+                                        <p style="margin-bottom: 0"><strong>Size:</strong> <span id="sizes{{ i.product.id }}">{{ i.selected_size }}</span></p>
                                         <!--Delete Button-->
                                         <div class="col-lg-1 col-md-6 mb-3 mt-3 lg-0">
                                             <button type="button" id="remove_btn{{ i.product.id }}" class="btn btn-danger btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item">
@@ -72,7 +72,7 @@
                                                 <button type="button" id="remove_quantity{{ i.product.id }}" class="btn btn-primary btn-sm ms-1 me-1" data-mdb-toggle="tooltip" title="Remove item"><i class="fas fa-minus"></i></button>
                                             </div>
                                             <div class="form-outline" >
-                                                <input id="form1" min="1" name="quantity" type="text" value="{{ i.product_qty }}" disabled class="form-control active">
+                                                <input id="qty{{ i.product.id }}" min="1" name="quantity" type="text" value="{{ i.product_qty }}" disabled class="form-control active">
                                                 <label class="form-label" for="form1" style="margin-left: 0px;">Quantity</label>
                                                 <div class="form-notch">
                                                     <div class="form-notch-leading" style="width: 9px;"></div>
@@ -98,7 +98,7 @@
                                             </div>
                                         </div>
                                         <p style="text-align: center">
-                                            <strong>{{ i.product.price }}</strong>
+                                            <strong><span id="price{{ i.product.id }}">{{ i.product.price }}</span></strong>
                                         </p>
                                     </div>
                                 </div>
@@ -110,16 +110,16 @@
                     <div class="card mb-4 mb-lg-0">
                         <div class="card-body">
                             <p><strong>We accept</strong></p>
-                            <img class="me-2" width="45px"
-                                 src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png"
-                                 alt="Visa" />
-                            <img class="me-2" width="45px"
-                                 src="https://1000logos.net/wp-content/uploads/2017/03/MasterCard-Logo-1979.png"
-                                 alt="Mastercard" />
-                            <img class="me-2" width="35px"
-                                 src="https://meeza-eg.com/wp-content/uploads/2019/10/logo-01-1.png"
-                                 alt="PayPal acceptance mark" />
-                            <img class="me-2" width="35px"
+                            <!--<img class="me-2" width="45px"-->
+                            <!--     src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png"-->
+                            <!--     alt="Visa" />-->
+                            <!--<img class="me-2" width="45px"-->
+                            <!--     src="https://1000logos.net/wp-content/uploads/2017/03/MasterCard-Logo-1979.png"-->
+                            <!--     alt="Mastercard" />-->
+                            <!--<img class="me-2" width="35px"-->
+                            <!--     src="https://meeza-eg.com/wp-content/uploads/2019/10/logo-01-1.png"-->
+                            <!--     alt="PayPal acceptance mark" />-->
+                            <img class="me-2" width="35px" draggable="false"
                                  src="https://cdn-icons-png.flaticon.com/512/1554/1554401.png"
                                  alt="PayPal acceptance mark" />
                         </div>
@@ -135,7 +135,7 @@
                                 <li
                                         class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                     Products
-                                    <span>{{ total_price }} EGP</span>
+                                    <span><span id="total">{{ total_price }}</span> EGP</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     Tax (VAT)
@@ -149,7 +149,7 @@
                                         </strong>
                                     </div>
                                     {% if total_price != 0 %}
-                                        <span><strong>{{ total_price }} EGP</strong></span>
+                                        <span><strong><span id="total2">{{ total_price }}</span> EGP</strong></span>
                                     {% else %}
                                         <span><strong>0 EGP</strong></span>
                                     {% endif %}
@@ -191,7 +191,10 @@
             array3 = [],
             ID_List = [],
             options = [],
+            qty = [],
             rem_qunatity = [],
+            sizes = [],
+            prices = [],
             array2 = [];
         let j = 0;
         {% for i in cart_items %}
@@ -199,6 +202,9 @@
             options[j] = array[j].querySelectorAll(".option");
             ID_List[j] = "{{ i.product.id }}";
             array2[j] = $("#B{{ i.product.id }}");
+            sizes[j] = $("#sizes{{ i.product.id }}");
+            qty[j] = $("#qty{{ i.product.id }}");
+            prices[j] = $("#price{{ i.product.id }}");
             rem_qunatity[j] = $("#remove_quantity{{ i.product.id }}");
             array3[j] = $('#remove_btn{{ i.product.id }}');
             list[j] = document.getElementById("L{{ i.product.id }}");
@@ -213,20 +219,51 @@
                 array[x].classList.toggle("active");
                 event.stopPropagation();
             });
-                rem_qunatity[x].on("click", function(e){
-                    window.location.href = '/remove_quantity/'+ID_List[x];
+            rem_qunatity[x].on("click", function(e){
+                if (qty[x].val() != 1) {
+                    let temp = 0, temp2 = '';
+                    temp = parseInt($("#total").text().replace(',', '')) - parseInt(prices[x].text().replace("EGP ", ""));
+                    temp2 = temp.toString();
+                    if (temp2.length == 4){
+                        temp2 = temp2.charAt(0) + ',' + temp2.slice(1, temp2.length);
+                    }
+                    else if (temp2.length == 5){
+                        temp2 = temp2.slice(0,2) + ',' + temp2.slice(2, temp2.length);
+                    }
+                    $("#total").text(temp2);
+                    $("#total2").text(temp2);
+                    sizes[x].text(sizes[x].text().slice(0, sizes[x].text().length - 4));
+                    qty[x].attr('value', parseInt(qty[x].val()) - 1);
+                    fetch('/remove_quantity/' + ID_List[x]);
                     e.stopPropagation();
+                }
+                else{
+                    window.location.href = '/remove_product/' + ID_List[x];
+                }
+            });
+            let selected = '', temp = '';
+            options[x].forEach((option) => {
+                option.addEventListener("click", (event) => {
+                    let temp = 0, temp2 = '';
+                    array[x].classList.remove("active");
+                    option.classList.add("selected");
+                    selected = option.textContent;
+                    qty[x].attr('value', parseInt(qty[x].val()) + 1);
+                    temp = parseInt(prices[x].text().replace("EGP ", "")) + parseInt($("#total").text().replace(',', ''));
+                    temp2 = temp.toString();
+                    if (temp2.length == 4){
+                        temp2 = temp2.charAt(0) + ',' + temp2.slice(1, temp2.length);
+                    }
+                    else if (temp2.length == 5){
+                        temp2 = temp2.slice(0,2) + ',' + temp2.slice(2, temp2.length);
+                    }
+                    $("#total").text(temp2);
+                    $("#total2").text(temp2);
+                    sizes[x].text(sizes[x].text() + ", " + selected);
+                    fetch('/add_quantity/' + ID_List[x] + '/' + selected);
+                    event.stopPropagation();
                 });
-                let selected = '';
-                options[x].forEach((option) => {
-                    option.addEventListener("click", (event) => {
-                        array[x].classList.remove("active");
-                        option.classList.add("selected");
-                        selected = option.textContent;
-                        window.location.href = '/add_quantity/' + ID_List[x] + '/' + selected;
-                        event.stopPropagation();
-                    });
-                });
+            });
         }
         let h=0;
         {% for i in cart_items %}

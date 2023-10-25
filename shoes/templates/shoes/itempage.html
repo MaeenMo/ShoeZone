@@ -21,7 +21,7 @@
         {% for i in shoes %}
             <div class="container" style="margin-top:60px">
               <div class="product-image ">
-                  <img src="/{{ i.img }}" alt="" class="product-pic">
+                  <img id="myimg" draggable="false" src="/{{ i.img }}" alt="" class="product-pic">
                   <div class="dots">
                 </div>
               </div>
@@ -29,9 +29,9 @@
               <div class="product-details shadow1">
                 <header>
                   <h1 class="title">{{ i.name }}</h1>
-                  <div class="colorCat">{{ i.color }}</div>
+                  <div class="colorCat" id="color">{{ i.color }}</div>
                   <div class="price"style="float:left;">
-                    <span class="current">{{ i.price }}</span>
+                    <span class="current" id="price">{{ i.price }}</span>
                   </div>
                 </header>
                   <div class="color" style="margin-top: 60px">
@@ -40,19 +40,19 @@
                                   <ul style="margin: 0px">
                                   {% for j in more_items %}
                                       {% if j.color_hexa != "#000000" %}
-                                          <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                          <button id="bt{{ j.id }}"class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" ></button>
                                       {% else %}
-                                          <a class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" href="/item/{{ j.id }}"></a>
+                                          <button id="bt{{ j.id }}" class="colors color-bdot1 active" style="margin: 20px 40px 20px -17px;  background-color: {{ j.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black" ></button>
                                       {% endif %}
                                   {% endfor %}
                                   </ul>
                               {% else %}
-                                  <h5 class="label">Available color:</h5>
+                                  <h5>Available color:</h5>
                                   <ul style="margin: 0px">
                                   {% if i.color_hexa != "#000000" %}
-                                      <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                                      <button class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color_hexa }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></button>
                                   {% else %}
-                                      <li class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></li>
+                                      <button class="colors color-bdot1 active" style="margin: 20px 0px 20px -17px; background-color: {{ i.color }};box-shadow: 0 0 4px 0px black, 0 0 1px 5px white, 0 0 10px 5px black"></button>
                                   {% endif %}
                                   </ul>
                               {% endif %}
@@ -94,9 +94,9 @@
                               alert("Please Sign in");
                           }
                       </script>
-                      <div class="footer1" >
+                      <div class="footer1">
                           {% if user.is_authenticated %}
-                                  <button type="submit">
+                                  <button type="button" id="add">
                                       <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
                                       <span>add to cart</span>
                                   </button>
@@ -124,22 +124,54 @@
 
 {% block additional %}
     <script>
+        var arr = [], i=0, item = 0, url = '';
+        {% for i in more_items %}
+            arr[i] = $("#bt{{ i.id }}");
+            arr[i].on("click", function (){
+                $("#myimg").attr('src','/{{ i.img }}');
+                $("#price").text("{{ i.price }}");
+                $("#color").text("{{ i.color }}".replaceAll("&amp;", "&"));
+                item = {{ i.id }};
+                $("#msg_out").text("");
+                url = '/add_product/' + item + '/?sizeselect=';
+            });
+            i++;
+        {% endfor %}
         const size_selector = document.getElementById("sizeselector"),
-              selected = size_selector.querySelectorAll(".selectedSize");
+              selected = size_selector.querySelectorAll(".selectedSize"),
+              addtoCart_div =  document.getElementById("add");
         var op_selected = '';
+        $("#msg_out").text("");
         selected.forEach((option) => {
             option.addEventListener("click", (event) => {
+                $("#msg_out").text("");
                 op_selected = option.textContent;
                 event.stopPropagation();
             });
         });
+        // if clicked in any part of html except the size selector part//
+        document.addEventListener("click", (event) => {
+            if (!size_selector.contains(event.target) && !addtoCart_div.contains(event.target)) {
+                $("#size" + op_selected).prop("checked", false);
+                op_selected = "";
+            }
+        });
+        //------------------------------------------------------------//
         {% for i in shoes %}
-            var url = '/add_product/{{ i.id }}/?sizeselect=';
+            item = {{ i.id }};
+            url = '/add_product/' + item + '/?sizeselect=';
         {% endfor %}
-        function get_action(form) {
-            url += op_selected;
-            form.action = url;
-        }
+        $("#add").on("click", function (){
+            if (op_selected) {
+                url += op_selected;
+                fetch(url);
+                url = '/add_product/' + item + '/?sizeselect=';
+                $("#msg_out").text("Item is Added To Cart");
+            }
+            else{
+                $("#msg_out").text("Please Select a Size");
+            }
+        });
         if (history.scrollRestoration) {
             history.scrollRestoration = 'manual';
         }

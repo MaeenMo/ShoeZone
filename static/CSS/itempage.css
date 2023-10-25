@@ -324,6 +324,7 @@ a {
 
 .selectedSize{
   /* padding: 11px 15px 0px; */
+  cursor: pointer;
   text-align: center;
   display: flex;
   flex-wrap: wrap;

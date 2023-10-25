@@ -108,9 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
+TIME_ZONE = 'Asia/Qatar'
 
 USE_TZ = True
 
@@ -140,4 +138,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 'qubedeveloperteam21p@gmail.com'
-EMAIL_HOST_PASSWORD = 'djuggbuchlatytrj'
+EMAIL_HOST_PASSWORD = 'bwcwwqgdfdfpdzpn'

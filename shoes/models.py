@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from django.utils import timezone
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import *
 
 
 class Shoe(models.Model):
@@ -12,7 +12,7 @@ class Shoe(models.Model):
     color = models.CharField(max_length=50, default="White")
     color_hexa = models.CharField(max_length=50, default="#000000")
     Type = models.CharField(max_length=10, default="Men")
-    img = models.ImageField(upload_to='ShoeZone/static/Media')
+    img = models.ImageField(upload_to='shoes_images')
     shoe_num = models.IntegerField(default=0)
 
     def __str__(self):
@@ -25,8 +25,6 @@ class Cart_item(models.Model):
     product_qty = models.IntegerField(null=False, blank=False)
     selected_size = models.CharField(max_length=80, default="")
     created_at = models.DateTimeField(auto_now_add=True)
-    ordered = models.BooleanField(default=False)
-    order_num = models.CharField(max_length=20, default="#000000")
 
     def __str__(self):
         return "In Cart: {x} ({y})".format(x=self.product.name, y=self.owner)
@@ -37,6 +35,7 @@ class Order(models.Model):
     order_no = models.CharField(max_length=20, default="#000000")
     items = models.TextField(max_length=1000, default="")
     total_price = models.CharField(max_length=20, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.order_no)
